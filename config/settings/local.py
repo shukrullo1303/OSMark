@@ -31,8 +31,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 TEMPLATES = [
     {
-        "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "APP_DIRS": True,
-        # ...
-    }
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'templates'],  # bo‘lmasa ham bo‘lishi mumkin
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',   # MUHIM
+                'django.contrib.auth.context_processors.auth',  # MAJBURIY
+                'django.contrib.messages.context_processors.messages',  # MAJBURIY
+            ],
+        },
+    },
 ]
