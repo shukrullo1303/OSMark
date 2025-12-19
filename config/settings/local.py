@@ -5,8 +5,9 @@ import os
 BASE_DIR = BASE_DIR.parent
 
 EXTERNAL_APPS = [
-    'rest_framework',
-    'corsheaders'
+    'rest_framework', 
+    'drf_yasg',
+    "debug_toolbar",
 ]
 
 LOCAL_APPS = ["src.core"]
@@ -27,3 +28,11 @@ MIDDLEWARE = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "APP_DIRS": True,
+        # ...
+    }
+]
