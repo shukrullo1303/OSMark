@@ -2,6 +2,7 @@ from rest_framework import serializers
 from src.core.models.base import *
 
 from src.core.models import *
+from src.api.serializers import *
 
 
 class BaseSerializer(serializers.ModelSerializer):
