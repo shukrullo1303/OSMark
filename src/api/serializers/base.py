@@ -1,6 +1,8 @@
 from rest_framework import serializers
+from src.core.models.base import *
 
-import src.core.models as models
+
+from src.core.models import *
 
 class BaseSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
