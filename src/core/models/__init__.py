@@ -1,9 +1,9 @@
 # from src.core.models.news import News  #### shu kabi chaqriladi
 
-from core.models.course.category import CategoryModel
 from src.core.models.base import BaseModel
 from src.core.models.course.category import CategoryModel
 from src.core.models.course.course import CourseModel
+from src.core.models.course.enrollment import EnrollmentModel
 from src.core.models.lesson.lesson import LessonModel
 from src.core.models.lesson.lesson_progress import LessonProgressModel
 from src.core.models.quiz.quiz import QuizModel

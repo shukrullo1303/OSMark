@@ -2,8 +2,8 @@ from src.core.models.base import *
 
 
 class LessonProgressModel(BaseModel):
-    user = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='lesson_progress')
-    lesson = models.ForeignKey('lesson.LessonModel', on_delete=models.CASCADE, related_name='progress_records')
+    user = models.ForeignKey('auth.User', on_delete=models.SET_NULL, null=True, related_name='lesson_progress')
+    lesson = models.ForeignKey('LessonModel', on_delete=models.SET_NULL, null=True, related_name='progress_records')
     completed = models.BooleanField(default=False)
 
     class Meta:

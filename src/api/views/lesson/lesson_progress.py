@@ -7,7 +7,7 @@ class LessonProgressViewSet(BaseViewSet):
     """
     queryset = LessonProgressModel.objects.all()
     serializer_class = LessonProgressSerializer
-    permission_classes = [IsAuthenticated]
+
 
     def get_queryset(self):
         """

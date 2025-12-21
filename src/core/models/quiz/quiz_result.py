@@ -2,4 +2,4 @@ from src.core.models.base import *
 
 
 class QuizResultModel(BaseModel):
-    user = models.ForeignKeyField( User, backref="quiz_results", on_delete="CASCADE",)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="quiz_results")

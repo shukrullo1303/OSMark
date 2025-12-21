@@ -6,5 +6,5 @@ class CategoryViewSet(BaseViewSet):
     serializer_class = CategorySerializer
     search_fields = ['name', 'description']
     # ordering = ['courses.enrollments__count']   # xatolik bor
-    permission_classes = [IsAuthenticatedOrReadOnly]
+
     

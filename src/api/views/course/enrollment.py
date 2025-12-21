@@ -1,4 +1,3 @@
-from core.models.course.enrollment import EnrollmentModel
 from src.api.views.base import *
 
 
@@ -8,7 +7,6 @@ class EnrollmentViewSet(BaseViewSet):
     """
     queryset = EnrollmentModel.objects.all()
     serializer_class = EnrollmentSerializer
-    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         """
