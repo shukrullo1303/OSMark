@@ -2,8 +2,6 @@ from src.api.serializers.base import *
 
 
 class QuizSerializer(BaseSerializer):
-    # questions = QuestionSerializer(many=True, read_only=True)
-    # answers = AnswerSerializer(many=True, read_only=True)
     class Meta:
         model = QuizModel
         fields = ['title', 
@@ -14,3 +12,7 @@ class QuizSerializer(BaseSerializer):
                 #   'answers'
                   ]
     
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        rep['questions'] = QuestionSerializer(instance.questions, many=True).data
+        return rep
