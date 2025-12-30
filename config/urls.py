@@ -22,4 +22,5 @@ from src.api import main_routers
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(main_routers)),
+    path('nested_admin/', include('nested_admin.urls')),
 ]

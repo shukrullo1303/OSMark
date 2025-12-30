@@ -8,9 +8,12 @@ EXTERNAL_APPS = [
     'rest_framework', 
     'drf_yasg',
     "debug_toolbar",
+    'nested_admin',
 ]
 
-LOCAL_APPS = ["src.core"]
+LOCAL_APPS = ["src.core",
+                "seed",
+]
 
 INSTALLED_APPS += EXTERNAL_APPS + LOCAL_APPS
 

@@ -7,8 +7,8 @@ class QuizSerializer(BaseSerializer):
     class Meta:
         model = QuizModel
         fields = ['title', 
-                  'lessons', 
-                  'total_questions', 
+                  'lesson', 
+                  # 'total_questions', 
                   'passing_score', 
                 #   'questions', 
                 #   'answers'

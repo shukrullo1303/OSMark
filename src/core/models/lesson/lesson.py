@@ -1,3 +1,4 @@
+import uuid
 from src.core.models.base import *
 
 
@@ -12,9 +13,10 @@ class LessonModel(BaseModel):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title)
+            base = slugify(self.title)
+            self.slug = f"{base}-{uuid.uuid4().hex[:6]}"
         super().save(*args, **kwargs)
-
+        
     def __str__(self):
         return self.title
     
