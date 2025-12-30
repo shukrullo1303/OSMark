@@ -9,6 +9,7 @@ EXTERNAL_APPS = [
     'drf_yasg',
     "debug_toolbar",
     'nested_admin',
+    
 ]
 
 LOCAL_APPS = ["src.core",
@@ -20,6 +21,7 @@ INSTALLED_APPS += EXTERNAL_APPS + LOCAL_APPS
 SECRET_KEY = "secret-key-for-local-development"
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     "debug_toolbar.middleware.DebugToolbarMiddleware",
@@ -53,3 +55,10 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
 }
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
