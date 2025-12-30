@@ -1,55 +1,88 @@
-import React, { useEffect, useState } from 'react';
-import { Navbar, Nav, Container, Button } from 'react-bootstrap';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getProfile, logout } from '../services/auth';
+import { useAuth } from '../context/AuthContext';
+import './Navbar.css';
 
 const Navigation = () => {
-    const [user, setUser] = useState(null);
+    const { user, logout } = useAuth();
+    const [q, setQ] = useState('');
+    const [mobileOpen, setMobileOpen] = useState(false);
     const nav = useNavigate();
-
-    useEffect(() => {
-        const load = async () => {
-            try {
-                const res = await getProfile();
-                setUser(res.data);
-            } catch (err) {
-                setUser(null);
-            }
-        };
-        load();
-    }, []);
 
     const handleLogout = () => {
         logout();
-        setUser(null);
         nav('/');
     };
 
+    const doSearch = (e) => {
+        e.preventDefault();
+        nav(`/?q=${encodeURIComponent(q)}`);
+        setQ('');
+    };
+
     return (
-        <Navbar bg="light" expand="lg">
-            <Container>
-                <Navbar.Brand as={Link} to="/">LMS</Navbar.Brand>
-                <Navbar.Toggle />
-                <Navbar.Collapse>
-                    <Nav className="me-auto">
-                        <Nav.Link as={Link} to="/">Home</Nav.Link>
-                    </Nav>
-                    <Nav>
-                        {user ? (
-                            <>
-                                <Nav.Link as={Link} to="/profile">{user.username || user.email}</Nav.Link>
-                                <Button variant="outline-secondary" onClick={handleLogout}>Logout</Button>
-                            </>
-                        ) : (
-                            <>
-                                <Button as={Link} to="/login" variant="primary" className="me-2">Login</Button>
-                                <Button as={Link} to="/register" variant="outline-primary">Sign up</Button>
-                            </>
-                        )}
-                    </Nav>
-                </Navbar.Collapse>
-            </Container>
-        </Navbar>
+        <nav className="navbar">
+            <div className="site-container navbar-content">
+                <Link to="/" className="nav-brand">LMS</Link>
+
+                <form onSubmit={doSearch} className="search-form">
+                    <input
+                        type="text"
+                        placeholder="Search courses..."
+                        value={q}
+                        onChange={(e) => setQ(e.target.value)}
+                        className="search-input"
+                    />
+                </form>
+
+                <div className="nav-right">
+                    {user ? (
+                        <>
+                            <Link to="/profile" className="nav-user">
+                                <span className="user-avatar">{user.username?.[0]?.toUpperCase() || 'U'}</span>
+                                <span className="user-name">{user.username || user.email}</span>
+                            </Link>
+                            <button onClick={handleLogout} className="btn btn-outline-primary">
+                                Logout
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <Link to="/login" className="btn btn-primary">
+                                Login
+                            </Link>
+                            <Link to="/register" className="btn btn-outline-primary">
+                                Sign up
+                            </Link>
+                        </>
+                    )}
+                </div>
+
+                <button
+                    className="mobile-toggle"
+                    onClick={() => setMobileOpen(!mobileOpen)}
+                >
+                    ☰
+                </button>
+            </div>
+
+            {mobileOpen && (
+                <div className="mobile-menu">
+                    {user && (
+                        <>
+                            <Link to="/profile" className="mobile-link">Profile</Link>
+                            <button onClick={handleLogout} className="mobile-link">Logout</button>
+                        </>
+                    )}
+                    {!user && (
+                        <>
+                            <Link to="/login" className="mobile-link">Login</Link>
+                            <Link to="/register" className="mobile-link">Sign up</Link>
+                        </>
+                    )}
+                </div>
+            )}
+        </nav>
     );
 };
 

@@ -1,19 +1,26 @@
 import React from 'react';
-import { Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 const CourseCard = ({ course }) => {
   return (
-    <Card className="mb-3 h-100">
-      <Card.Body className="d-flex flex-column">
-        <Card.Title>{course.title}</Card.Title>
-        <Card.Text className="flex-grow-1">{course.description}</Card.Text>
-        <div className="d-flex justify-content-between align-items-center mt-2">
-          <small>{course.is_free ? 'Free' : `Price: ${course.price}`}</small>
-          <Button as={Link} to={`/courses/${course.id}`} variant="primary">View</Button>
+    <div className="course-card">
+      {course.thumbnail ? (
+        <img src={course.thumbnail} alt={course.title} className="course-thumb" />
+      ) : (
+        <div className="course-thumb" />
+      )}
+      <div className="course-body">
+        <div className="course-title">{course.title}</div>
+        <div className="course-desc">{course.description?.slice(0, 120)}{course.description && course.description.length > 120 ? '...' : ''}</div>
+        <div className="course-meta">
+          <div className="tag">{course.level || 'All levels'}</div>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <div className="price-badge">{course.is_free ? 'Free' : `$${course.price}`}</div>
+            <Link to={`/courses/${course.id}`} className="btn btn-outline-primary">View</Link>
+          </div>
         </div>
-      </Card.Body>
-    </Card>
+      </div>
+    </div>
   );
 };
 

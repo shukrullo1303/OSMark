@@ -5,21 +5,27 @@ import Home from './pages/HomePage';
 import CoursePage from './pages/CoursePage';
 import LessonPage from './pages/LessonPage';
 import QuizPage from './pages/QuizPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import ProfilePage from './pages/ProfilePage';
 import Navigation from './components/Navbar';
-import { Container } from 'react-bootstrap';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
   return (
     <Router>
-      <Navigation />
-      <Container className="mt-4">
+      <AuthProvider>
+        <Navigation />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/courses/:id" element={<CoursePage />} />
           <Route path="/lessons/:id" element={<LessonPage />} />
           <Route path="/quiz/:id" element={<QuizPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Routes>
-      </Container>
+      </AuthProvider>
     </Router>
   );
 }
