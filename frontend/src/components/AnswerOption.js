@@ -1,5 +1,5 @@
 import React from 'react';
-import './AnswerOption.css';
+import '../styles/components/AnswerOption.css';
 
 const AnswerOption = ({ option, checked, onChange }) => (
     <label className="answer-option">

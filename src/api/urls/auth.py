@@ -71,8 +71,8 @@ def register_user(request):
         )
 
 urlpatterns = [
-    path('/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('/me/', get_current_user, name='current_user'),
-    path('/register/', register_user, name='register'),
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('me/', get_current_user, name='current_user'),
+    path('register/', register_user, name='register'),
 ]

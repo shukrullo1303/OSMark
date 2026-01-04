@@ -23,7 +23,7 @@ class QuizInline(nested_admin.NestedStackedInline):
     model = QuizModel
     extra = 1
     inlines = [QuestionInline]
-    fields = ['title', 'description']
+    fields = ['title', 'passing_score']
 
 
 # ===== LESSON ADMIN (Nested) =====
@@ -46,7 +46,7 @@ class CourseAdmin(nested_admin.NestedModelAdmin):
     list_display = ['title', 'category', 'level', 'price']
     list_filter = ['category', 'level']
     search_fields = ['title']
-    inlines = [LessonInline]
+    # inlines = [LessonInline]
 
 
 @admin.register(LessonModel)

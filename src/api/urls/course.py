@@ -2,7 +2,7 @@ from src.api.urls.base import *
 
 
 router = DefaultRouter()
-router.register("courses", CourseViewSet, basename="course")
+router.register("", CourseViewSet, basename="course")
 router.register("categories", CategoryViewSet, basename="category")
 router.register("enrollments", EnrollmentViewSet, basename="enrollment")
 

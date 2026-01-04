@@ -4,7 +4,7 @@ import { getCourse } from '../services/courses';
 import { getLessonsByCourse } from '../services/lessons';
 import LessonCard from '../components/LessonCard';
 import { enrollCourse } from '../services/enrollments';
-import './CoursePage.css';
+import '../styles/pages/CoursePage.css';
 
 const CoursePage = () => {
     const { id } = useParams();
@@ -34,10 +34,12 @@ const CoursePage = () => {
 
     const handleEnroll = async () => {
         try {
-            await enrollCourse(id);
+            await enrollCourse(course.id);
+            alert("Successfully enrolled!");
             setEnrolled(true);
         } catch (err) {
             console.error(err);
+            alert(err.response?.data?.detail || "Enroll failed");
         }
     };
 
@@ -87,6 +89,7 @@ const CoursePage = () => {
                                 {lessons.map((l, idx) => (
                                     <LessonCard key={l.id} lesson={l} index={idx + 1} />
                                 ))}
+
                             </div>
                         )}
                     </section>

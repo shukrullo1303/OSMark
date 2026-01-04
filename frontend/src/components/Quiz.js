@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AnswerOption from './AnswerOption';
-import './Quiz.css';
+import '../styles/components/Quiz.css';
 
 const Quiz = ({ quiz, onSubmit, submitting }) => {
     const [answers, setAnswers] = useState({});

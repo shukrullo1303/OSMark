@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getQuiz, submitQuiz } from '../services/quiz';
 import Quiz from '../components/Quiz';
-import './QuizPage.css';
+import '../styles/pages/QuizPage.css';
 
 const QuizPage = () => {
     const { id } = useParams();

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import './AuthPages.css';
+import '../styles/pages/AuthPages.css';
 
 const RegisterPage = () => {
     const [data, setData] = useState({

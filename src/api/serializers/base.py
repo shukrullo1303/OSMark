@@ -3,6 +3,7 @@ from src.core.models.base import *
 
 from src.core.models import *
 from src.api.serializers import *
+from src.api.views.utils import can_user_open_lesson
 
 
 class BaseSerializer(serializers.ModelSerializer):

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getCourses } from '../services/courses';
 import CourseCard from '../components/CourseCard';
-import './HomePage.css';
+import '../styles/pages/HomePage.css';
 
 const Home = () => {
   const [courses, setCourses] = useState([]);

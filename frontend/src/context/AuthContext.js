@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Profilni yuklash
   const loadProfile = async () => {
     const token = localStorage.getItem('access_token');
     if (!token) {
@@ -29,19 +30,26 @@ export const AuthProvider = ({ children }) => {
     loadProfile();
   }, []);
 
+  // Login funksiyasi
   const login = async (username, password) => {
-    const res = await svcLogin(username, password);
+    const res = await svcLogin(username, password); // API login
     const { access, refresh } = res.data;
+
+    // TOKENLARNI LOCALSTORAGE GA SAQLASH
     svcSetTokens({ access, refresh });
+
+    // Foydalanuvchi profilini yuklash
     await loadProfile();
     return res;
   };
 
+  // Register
   const register = async (payload) => {
     const res = await svcRegister(payload);
     return res;
   };
 
+  // Logout
   const logout = () => {
     svcLogout();
     setUser(null);
