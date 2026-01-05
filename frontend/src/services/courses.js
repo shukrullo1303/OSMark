@@ -13,6 +13,9 @@ export const getCourses = () => api.get('courses/');
 export const getCourse = (id) => api.get(`courses/${id}/`);
 
 // Enrollments
-export const enrollCourse = async (courseId) => {
-  return api.post(`courses/${courseId}/enroll/`);
-};
+// export const enrollCourse = async (courseId) => {
+//   return api.post(`courses/${courseId}/enroll/`);
+// };
+
+// export const checkEnrolled = (courseId) =>
+//   api.get(`courses/${courseId}/is-enrolled/`);

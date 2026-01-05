@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getLessonsByCourse, markProgress } from '../services/lessons';
+import { getLesson, getLessonsByCourse, markProgress } from '../services/lessons';
 import LessonCard from '../components/LessonCard';
 import { useAuth } from '../context/AuthContext';
 import '../styles/pages/LessonPage.css';
@@ -14,7 +14,7 @@ const LessonPage = () => {
     useEffect(() => {
         const loadLessons = async () => {
             try {
-                const res = await getLessonsByCourse(id); // backend API: /courses/:id/lessons/
+                const res = await getLesson(id); // backend API: /courses/:id/lessons/
                 setLessons(res.data);
             } catch (err) {
                 console.error(err);

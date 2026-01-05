@@ -1,6 +1,7 @@
 from src.api.views.base import *
 
 
+
 class CourseViewSet(BaseViewSet):
     queryset = CourseModel.objects.all()
     search_fields = ("title", "description")
@@ -28,9 +29,19 @@ class CourseViewSet(BaseViewSet):
         course = self.get_object()
         user = request.user
 
-        # agar foydalanuvchi allaqachon enrolled bo'lsa
-        if Enrollment.objects.filter(user=user, course=course).exists():
-            return Response({"detail": "Already enrolled"}, status=status.HTTP_200_OK)
+        enrollment, created = EnrollmentModel.objects.get_or_create(
+            user=user,
+            course=course
+        )
 
-        Enrollment.objects.create(user=user, course=course)
-        return Response({"detail": "Successfully enrolled"}, status=status.HTTP_201_CREATED)
+        if not created:
+            return Response({"detail": "Already enrolled"})
+
+        return Response({"detail": "Successfully enrolled"})
+    
+    @action(detail=True, methods=['get'], permission_classes=[IsAuthenticated], url_path='is-enrolled')
+    def is_enrolled(self, request, pk=None):
+        course = self.get_object()
+        user = request.user
+        enrolled = EnrollmentModel.objects.filter(user=user, course=course).exists()
+        return Response({"enrolled": enrolled})

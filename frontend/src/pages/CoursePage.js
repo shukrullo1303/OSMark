@@ -3,14 +3,18 @@ import { useParams, Link } from 'react-router-dom';
 import { getCourse } from '../services/courses';
 import { getLessonsByCourse } from '../services/lessons';
 import LessonCard from '../components/LessonCard';
-import { enrollCourse } from '../services/enrollments';
+import { enrollCourse, checkEnrolled } from '../services/enrollments';
+import { useAuth } from '../context/AuthContext';
 import '../styles/pages/CoursePage.css';
+
+
 
 const CoursePage = () => {
     const { id } = useParams();
+    const { user } = useAuth();
     const [course, setCourse] = useState(null);
     const [lessons, setLessons] = useState([]);
-    const [enrolled, setEnrolled] = useState(false);
+    const [enrolled, setEnrolled] = useState();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -21,16 +25,29 @@ const CoursePage = () => {
             } catch (err) {
                 console.error(err);
             }
+
             try {
                 const res2 = await getLessonsByCourse(id);
                 setLessons(Array.isArray(res2.data) ? res2.data : res2.data.results || []);
             } catch (e) {
                 setLessons([]);
             }
+
+            // ENROLLED STATUSNI TEKSHIRISH
+            if (user) {
+                try {
+                    const r = await checkEnrolled(id);
+                    setEnrolled(r.data.enrolled);
+                } catch (e) {
+                    setEnrolled(false);
+                }
+            }
+
             setLoading(false);
         };
         load();
-    }, [id]);
+    }, [id, user]);
+
 
     const handleEnroll = async () => {
         try {
