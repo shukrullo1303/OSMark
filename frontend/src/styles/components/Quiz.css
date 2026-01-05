@@ -1,173 +1,42 @@
-.quiz-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 280px;
-    gap: var(--space-2xl);
-    margin-top: var(--space-2xl);
-}
-
-@media (max-width: 1024px) {
-    .quiz-wrapper {
-        grid-template-columns: 1fr;
-    }
-}
-
-.quiz-progress {
-    grid-column: 1 / -1;
-}
-
-.progress-info {
+.quiz-form {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: var(--space-base);
-    font-size: var(--font-size-sm);
+    flex-direction: column;
+    gap: 20px;
 }
 
-.progress-text {
-    font-weight: var(--font-weight-semibold);
-    color: var(--text-primary);
+.question {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-.progress-status {
-    color: var(--text-secondary);
+.question h3 {
+    margin-bottom: 12px;
+    font-size: 1.2rem;
+    color: #333;
 }
 
-.quiz-content {
-    display: grid;
-    gap: var(--space-2xl);
-}
-
-.question-card {
-    background-color: var(--surface);
-    border-radius: var(--radius-md);
-    padding: var(--space-2xl);
-    border: 1px solid var(--border);
-}
-
-.question-header {
+.answers {
     display: flex;
-    align-items: center;
-    gap: var(--space-base);
-    margin-bottom: var(--space-base);
+    flex-direction: column; /* javoblar vertical */
+    gap: 12px;
 }
 
-.question-number {
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-semibold);
-    color: var(--text-tertiary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.question-type {
-    background-color: var(--accent-100);
-    color: var(--accent-700);
-    padding: var(--space-xs) var(--space-base);
-    border-radius: var(--radius-sm);
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-semibold);
-}
-
-.question-text {
-    margin-bottom: var(--space-lg);
-    color: var(--text-primary);
-}
-
-.options-list {
-    display: grid;
-    gap: var(--space-md);
-}
-
-.quiz-navigation {
-    display: flex;
-    gap: var(--space-md);
-    padding-top: var(--space-lg);
-    border-top: 1px solid var(--border);
-    justify-content: space-between;
-}
-
-.quiz-navigation .btn {
-    flex: 1;
-}
-
-.quiz-sidebar {
-    width: 280px;
-}
-
-@media (max-width: 1024px) {
-    .quiz-sidebar {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-    }
-}
-
-.questions-overview {
-    background-color: var(--surface);
-    border-radius: var(--radius-md);
-    padding: var(--space-lg);
-    border: 1px solid var(--border);
-    position: sticky;
-    top: var(--space-xl);
-}
-
-.questions-overview h4 {
-    margin-bottom: var(--space-md);
-    text-transform: uppercase;
-    font-size: var(--font-size-xs);
-    color: var(--text-tertiary);
-    letter-spacing: 0.5px;
-}
-
-.question-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
-    gap: var(--space-sm);
-}
-
-.question-btn {
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    border: 2px solid var(--border);
-    border-radius: var(--radius-base);
-    background-color: transparent;
-    color: var(--text-primary);
-    font-weight: var(--font-weight-semibold);
-    font-size: var(--font-size-sm);
+.answer {
+    padding: 10px 15px;
+    border-radius: 6px;
+    border: 1px solid #007bff;
     cursor: pointer;
-    transition: all var(--transition-fast);
+    background-color: #f7f9fc;
+    transition: 0.2s;
 }
 
-.question-btn:hover {
-    border-color: var(--primary-500);
-    color: var(--primary-600);
+.answer:hover {
+    background-color: #e2f0ff;
 }
 
-.question-btn.answered {
-    background-color: var(--primary-50);
-    border-color: var(--primary-300);
-}
-
-.question-btn.active {
-    background-color: var(--primary-600);
-    color: white;
-    border-color: var(--primary-600);
-}
-
-.question-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-@media (max-width: 1024px) {
-    .questions-overview {
-        width: 100%;
-        max-width: 500px;
-        position: relative;
-        top: 0;
-    }
-
-    .question-grid {
-        grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
-    }
+.answer input[type="radio"] {
+    margin-right: 10px;
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getLesson, getLessonsByCourse, markProgress } from '../services/lessons';
-import LessonCard from '../components/LessonCard';
+import LessonListCard from '../components/LessonListCard';
 import { useAuth } from '../context/AuthContext';
 import '../styles/pages/LessonPage.css';
 
@@ -51,7 +51,7 @@ const LessonPage = () => {
             <div className="lessons-list">
                 {lessons.map((lesson, idx) => (
                     <div key={lesson.id} className="lesson-item">
-                        <LessonCard
+                        <LessonListCard
                             lesson={{
                                 ...lesson,
                                 is_locked: lesson.is_locked, // backenddan kelgan

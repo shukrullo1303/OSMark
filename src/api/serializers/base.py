@@ -5,7 +5,6 @@ from src.core.models import *
 from src.api.serializers import *
 from src.api.views.utils import can_user_open_lesson
 
-
 class BaseSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)

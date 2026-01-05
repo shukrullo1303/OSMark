@@ -1,8 +1,9 @@
-import api from './api';
+import api from "./api";
 
-export const getQuiz = (id) => api.get(`quiz/quizzes/${id}/`);
+// quizId orqali javob yuborish
+export const submitQuiz = (quizId, answers) =>
+    api.post(`/quiz/${quizId}/submit/`, { answers });
 
-export const submitQuiz = (id, answers) =>
-    api.post(`quiz/quizzes/${id}/submit/`, { answers });
-
-export const getResults = (quizId) => api.get(`quiz/results/?quiz=${quizId}`);
+// quizId orqali quizni olish
+export const getQuiz = (quizId) =>
+    api.get(`/lessons/${quizId}/quiz/`);

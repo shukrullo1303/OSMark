@@ -1,33 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getQuiz, submitQuiz } from '../services/quiz';
 import Quiz from '../components/Quiz';
 import '../styles/pages/QuizPage.css';
 
 const QuizPage = () => {
-    const { id } = useParams();
+    const { id } = useParams(); // lesson id
+    const navigate = useNavigate();
     const [quiz, setQuiz] = useState(null);
     const [result, setResult] = useState(null);
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
 
     useEffect(() => {
-        const load = async () => {
+        const loadQuiz = async () => {
             try {
                 const res = await getQuiz(id);
-                setQuiz(res.data);
+                // Backenddan array qaytadi, birinchi elementni oling
+                setQuiz(res.data[0]);
             } catch (err) {
                 console.error(err);
+            } finally {
+                setLoading(false);
             }
-            setLoading(false);
         };
-        load();
+        loadQuiz();
     }, [id]);
-
     const handleSubmit = async (answers) => {
         setSubmitting(true);
         try {
-            const res = await submitQuiz(id, answers);
+            const res = await submitQuiz(quiz.id, answers); // quiz.id yuboriladi
             setResult(res.data);
         } catch (err) {
             console.error(err);
@@ -36,61 +38,49 @@ const QuizPage = () => {
         }
     };
 
-    if (loading) {
-        return <div className="site-container"><div className="loading-state">Loading quiz...</div></div>;
-    }
 
-    if (!quiz) {
-        return <div className="site-container"><div className="empty-state">Quiz not found</div></div>;
-    }
+    if (loading) return <div className="site-container">Loading quiz...</div>;
+    if (!quiz) return <div className="site-container">Quiz not found</div>;
+
+    const passingScore = parseFloat(quiz.passing_score || 70);
+    const passed = result && result.score >= passingScore;
 
     return (
         <div className="site-container">
-            <div className="breadcrumb">
-                <a href="/">Home</a>
-                <span>/</span>
-                <span>Quiz</span>
-            </div>
+            <h1>{quiz.title}</h1>
 
             {!result ? (
-                <div className="quiz-container">
-                    <div className="quiz-header">
-                        <h1>{quiz.title}</h1>
-                        <p className="quiz-description">{quiz.description}</p>
-                        <div className="quiz-meta">
-                            <span className="meta-item">
-                                <strong>{quiz.questions?.length || 0}</strong> Questions
-                            </span>
-                            <span className="meta-item">
-                                <strong>Passing Score:</strong> {quiz.passing_score || 70}%
-                            </span>
-                        </div>
-                    </div>
-                    <Quiz quiz={quiz} onSubmit={handleSubmit} submitting={submitting} />
-                </div>
+                <Quiz quiz={quiz} onSubmit={handleSubmit} submitting={submitting} />
             ) : (
                 <div className="quiz-result">
-                    <div className="result-card">
-                        <div className={`result-badge ${result.score >= (quiz.passing_score || 70) ? 'passed' : 'failed'}`}>
-                            {result.score >= (quiz.passing_score || 70) ? '✓' : '✗'}
-                        </div>
-                        <h2>{result.score >= (quiz.passing_score || 70) ? 'Quiz Passed!' : 'Quiz Completed'}</h2>
-                        <div className="result-score">
-                            <span className="score-value">{result.score}%</span>
-                            <span className="score-label">Your Score</span>
-                        </div>
-                        <div className="result-details">
-                            <div className="detail-row">
-                                <span>Correct Answers</span>
-                                <strong>{result.correct_answers || 0} / {quiz.questions?.length || 0}</strong>
-                            </div>
-                        </div>
-                        <div className="result-actions">
-                            <a href="/" className="btn btn-primary">Back to Home</a>
-                            <button onClick={() => window.location.reload()} className="btn btn-outline-primary">
-                                Retake Quiz
+                    <h2>{passed ? '✓ Passed!' : '✗ Failed'}</h2>
+                    <p>Score: {result.score}%</p>
+                    <p>Correct answers: {result.correct_answers} / {quiz.questions.length}</p>
+
+                    <div className="quiz-result-actions" style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+                        {/* Keyingi darsga otish */}
+                        {passed && (
+                            <button
+                                className="btn btn-success"
+                                onClick={() => navigate(`/lessons/${quiz.lesson + 1}`)}
+                            >
+                                Next Lesson
                             </button>
-                        </div>
+                        )}
+                        {/* Oldingi darsga otish */}
+                        <button
+                            className="btn btn-outline-secondary"
+                            onClick={() => navigate(`/lessons/${quiz.lesson - 1}`)}
+                        >
+                            Previous Lesson
+                        </button>
+                        {/* Retake Quiz */}
+                        <button
+                            className="btn btn-primary"
+                            onClick={() => window.location.reload()}
+                        >
+                            Retake Quiz
+                        </button>
                     </div>
                 </div>
             )}

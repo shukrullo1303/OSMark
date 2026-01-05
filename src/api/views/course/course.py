@@ -18,7 +18,6 @@ class CourseViewSet(BaseViewSet):
     def lessons(self, request, pk=None):
         course = self.get_object()
         lessons = course.lessons.order_by('order')
-
         serializer = LessonSerializer(
             lessons, many=True, context={'request': request}
         )

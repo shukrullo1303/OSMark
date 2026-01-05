@@ -11,6 +11,7 @@ from django.contrib.auth.models import AnonymousUser
 from src.core.models import *
 from src.api.serializers import *
 from src.api.views.utils import can_user_open_lesson
+from src.shared.pagination import *
 
 
 class BaseViewSet(ReadOnlyModelViewSet):

@@ -1,18 +1,16 @@
 from src.api.serializers.base import *
+from src.api.serializers.quiz.question import QuestionSerializer
 
 
 class QuizSerializer(BaseSerializer):
+    questions = QuestionSerializer(many=True)
+
     class Meta:
         model = QuizModel
-        fields = ['title', 
-                  'lesson', 
-                  # 'total_questions', 
-                  'passing_score', 
-                #   'questions', 
-                #   'answers'
-                  ]
-    
-    def to_representation(self, instance):
-        rep = super().to_representation(instance)
-        rep['questions'] = QuestionSerializer(instance.questions, many=True).data
-        return rep
+        fields = '__all__'
+
+class QuizSubmitSerializer(serializers.Serializer):
+    answers = serializers.DictField(
+        child=serializers.IntegerField(), 
+        help_text="Question ID => Answer ID mapping"
+    )

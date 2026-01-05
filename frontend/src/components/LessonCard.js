@@ -1,36 +1,68 @@
 import { Card, Button, Badge } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import "../styles/components/LessonCard.css"
+import { markProgress } from '../services/lessons';
+import "../styles/components/LessonCard.css";
 
-const LessonCard = ({ lesson }) => {
+const LessonCard = ({ lesson, refreshLesson }) => {
     const navigate = useNavigate();
     const { user } = useAuth();
+    const [loading, setLoading] = useState(false);
 
-    const handleOpen = () => {
-        if (lesson.has_quiz) {
-            navigate(`/lessons/${lesson.id}/quiz`);
-        } else {
-            navigate(`/lessons/${lesson.id}`);
+    const handleComplete = async () => {
+        if (!user) return; // user bo'lmasa return
+        setLoading(true);
+        try {
+            await markProgress(lesson.id, { completed: true });
+            if (refreshLesson) refreshLesson(); // parent componentni refresh qilish
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoading(false);
         }
     };
 
+    const handleQuiz = () => {
+        navigate(`/lessons/${lesson.id}/quiz`);
+    };
+
     return (
-        <Card className="mb-2">
-            <Card.Body className="d-flex justify-content-between align-items-center">
-                <div>
-                    <Card.Title className="mb-0">{lesson.title}</Card.Title>
-                    <small className="text-muted">{lesson.duration || ''}</small>
-                </div>
-                <Button
-                    variant="outline-primary"
-                    onClick={handleOpen}
-                    disabled={lesson.is_locked} // locked darslarni ochmaslik
-                >
-                    {lesson.has_quiz ? "Quizga o'tish" : "Open"}
-                </Button>
-            </Card.Body>
-        </Card>
+<div className="lesson-detail">
+    <h2>{lesson.title}</h2>
+    <p>{lesson.order} - dars </p>
+
+    {/* Video container */}
+    {lesson.video_url && !lesson.is_locked && (
+        <div style={{ width: '100%', maxHeight: '80vh', margin: '20px 0' }}>
+            <video
+                src={lesson.video_url}
+                controls
+                style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain', // cover emas, shunda butun video ko‘rinadi
+                    borderRadius: '8px',
+                }}
+            />
+        </div>
+    )}
+
+    {/* Tugmalar */}
+    <div style={{ marginTop: '20px', display: 'flex', gap: '10px' }}>
+        {!lesson.is_completed && (
+            <button className="btn btn-primary" onClick={() => handleComplete(lesson.id)}>
+                Mark as Complete
+            </button>
+        )}
+        {lesson.has_quiz && (
+            <button className="btn btn-success" onClick={() => navigate(`/lessons/${lesson.id}/quiz`)}>
+                Go to Quiz
+            </button>
+        )}
+    </div>
+</div>
+
     );
 };
 

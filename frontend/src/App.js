@@ -10,6 +10,8 @@ import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
 import Navigation from './components/Navbar';
 import { AuthProvider } from './context/AuthContext';
+import LessonDetailPage from './pages/LessonDetailPage';
+
 
 function App() {
   return (
@@ -19,8 +21,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/courses/:id" element={<CoursePage />} />
-          <Route path="/lessons/:id" element={<LessonPage />} />
+          <Route path="/lessons/:id" element={<LessonDetailPage />} />
           <Route path="/quiz/:id" element={<QuizPage />} />
+          <Route path="/lessons/:id/quiz" element={<QuizPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/profile" element={<ProfilePage />} />

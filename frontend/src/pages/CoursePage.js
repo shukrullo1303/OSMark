@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getCourse } from '../services/courses';
 import { getLessonsByCourse } from '../services/lessons';
-import LessonCard from '../components/LessonCard';
+import LessonListCard from '../components/LessonListCard';
 import { enrollCourse, checkEnrolled } from '../services/enrollments';
 import { useAuth } from '../context/AuthContext';
 import '../styles/pages/CoursePage.css';
@@ -104,7 +104,7 @@ const CoursePage = () => {
                         ) : (
                             <div className="lesson-grid">
                                 {lessons.map((l, idx) => (
-                                    <LessonCard key={l.id} lesson={l} index={idx + 1} />
+                                    <LessonListCard key={l.id} lesson={l} index={idx + 1} />
                                 ))}
 
                             </div>
