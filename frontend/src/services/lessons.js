@@ -7,4 +7,4 @@ export const getLesson = (id, token) =>
     api.get(`/lessons/${id}/`, { headers: { Authorization: `Bearer ${token}` } });
 
 export const markProgress = (lessonId, payload, token) =>
-    api.post(`/lessons/progress/${lessonId}/`, payload, { headers: { Authorization: `Bearer ${token}` } });
+    api.post(`/lessons/lesson_progress/${lessonId}/`, payload, { headers: { Authorization: `Bearer ${token}` } });

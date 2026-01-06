@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { getLesson, getLessonsByCourse, markProgress } from '../services/lessons';
 import LessonListCard from '../components/LessonListCard';
 import { useAuth } from '../context/AuthContext';
+import { getUserQuizResult } from '../services/quiz';
 import '../styles/pages/LessonPage.css';
 
 const LessonPage = () => {

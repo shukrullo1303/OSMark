@@ -1,108 +1,106 @@
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import { getLesson, getLessonsByCourse, markProgress } from "../services/lessons";
+import { getLesson, markProgress } from "../services/lessons";
+import Quiz from "../components/Quiz"
+import { getUserQuizResult } from "../services/quiz";
 import "../styles/pages/LessonDetailPage.css";
 
-const LessonDetailPage = () => {
-  const { id, courseId } = useParams(); // id = lesson id, courseId = course id
-  const { user } = useAuth();
+export default function LessonDetailPage() {
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const [lesson, setLesson] = useState(null);
-  const [lessons, setLessons] = useState([]);
+  const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [completing, setCompleting] = useState(false);
 
-  // Lesson detail va course lessons ni yuklash
   useEffect(() => {
-    const loadLesson = async () => {
-      try {
-        const resLesson = await getLesson(id, user?.token);
-        setLesson(resLesson.data);
-
-        // Shu course dagi barcha lessons
-        if (courseId) {
-          const resCourse = await getLessonsByCourse(courseId, user?.token);
-          setLessons(Array.isArray(resCourse.data) ? resCourse.data : resCourse.data.results || []);
-        }
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
     loadLesson();
-  }, [id, courseId, user?.token]);
+  }, [id]);
 
-  if (loading) return <div className="site-container">Loading lesson...</div>;
-  if (!lesson) return <div className="site-container">Lesson not found</div>;
-
-  // Lessonni tugatish
-  const handleComplete = async () => {
-    if (!user) return;
-    setCompleting(true);
+  const loadLesson = async () => {
+    setLoading(true);
     try {
-      await markProgress(lesson.id, { completed: true });
-      // lesson state yangilash
-      setLesson(prev => ({ ...prev, is_completed: true }));
+      const res = await getLesson(id);
+      const lessonData = res.data;
+      setLesson(lessonData);
+
+      // Quiz natijasini olish, lessonData dan olamiz
+      const quizId = lessonData.quizzes?.[0]?.id;
+      if (quizId) {
+        const resultRes = await getUserQuizResult(quizId);
+        setResult(resultRes[0].score);
+      }
     } catch (err) {
-      console.error(err);
+      console.error("Lesson load error:", err);
     } finally {
-      setCompleting(false);
+      setLoading(false);
     }
   };
 
-  // Keyingi lessonni topish
-  const nextLesson = lessons
-    .filter(l => !l.is_locked)
-    .sort((a, b) => a.order - b.order)
-    .find(l => l.order > lesson.order);
+  const goNext = async () => {
+    await markProgress(lesson.id, { completed: true });
+    navigate(`/lessons/${lesson.next_lesson_id}`);
+  };
+
+  if (loading) return <div className="site-container">Loading...</div>;
 
   return (
-    <div className="site-container lesson-detail">
-      <h2>{lesson.title}</h2>
-      <p>Lesson {lesson.order}</p>
+    <div className="site-container lesson-detail-page">
+      <h1>{lesson.title}</h1>
 
-      {/* Video */}
-      {lesson.video_url && !lesson.is_locked && (
-        <div style={{ width: "100%", maxHeight: "80vh", margin: "20px 0" }}>
-          <video
-            src={lesson.video_url}
-            controls
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "contain",
-              borderRadius: "8px",
-            }}
-          />
-        </div>
+      {lesson.video_url && (
+        <video src={lesson.video_url} controls style={{ width: "100%", height: "70vh" }} />
       )}
 
-      {/* Tugmalar */}
-      <div style={{ marginTop: "20px", display: "flex", gap: "10px" }}>
-        {!lesson.is_completed && !lesson.has_quiz && (
-          <button className="btn btn-primary" onClick={handleComplete} disabled={completing}>
-            {completing ? "Completing..." : "Mark as Complete"}
+      {/* ================= QUIZ BLOCK ================= */}
+      {lesson.quizzes && (
+        <div className="quiz-box">
+          {!result ? (
+            <button
+              className="btn btn-primary"
+              onClick={() => navigate(`/quiz/${lesson.quizzes[0].id}`)}
+            >
+              Take Quiz
+            </button>
+          ) :
+            (
+              <div>
+
+                <button
+                  className="btn btn-primary"
+                  onClick={() => navigate(`/quiz/${lesson.quizzes[0].id}`)}
+                >
+                  Retake Quiz
+                </button>
+                <p>
+                  your score is {result}
+                </p>
+              </div>
+            )
+
+          }
+
+        </div>
+      )
+      }
+
+      {/* ================= NAV ================= */}
+      <div className="lesson-nav">
+        {lesson.prev_lesson_id && (
+          <button className="btn btn-outline-secondary"
+            onClick={() => navigate(`/lessons/${lesson.prev_lesson_id}`)}>
+            ← Prev Lesson
           </button>
         )}
 
-        {lesson.has_quiz && !lesson.is_completed && (
-          <button className="btn btn-success" onClick={() => navigate(`/lessons/${lesson.id}/quiz`)}>
-            Go to Quiz
-          </button>
-        )}
-
-        {/* Keyingi lessonga o‘tish */}
-        {lesson.is_completed && nextLesson && (
-          <button className="btn btn-primary" onClick={() => navigate(`/lessons/${nextLesson.id}`)}>
-            Next Lesson: {nextLesson.title}
+        {lesson.next_lesson_id && (
+          <button className="btn btn-success"
+            disabled={!(result >= 80)}
+            onClick={goNext}>
+            Next Lesson →
           </button>
         )}
       </div>
-    </div>
+    </div >
   );
-};
-
-export default LessonDetailPage;
+}

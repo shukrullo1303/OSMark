@@ -1,11 +1,9 @@
-import { Card, Button, Badge } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { Card, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import "../styles/components/LessonCard.css"
 
 const LessonListCard = ({ lesson }) => {
     const navigate = useNavigate();
-    const { user } = useAuth();
 
     const handleOpen = () => {
         navigate(`/lessons/${lesson.id}`);

@@ -28,40 +28,40 @@ const LessonCard = ({ lesson, refreshLesson }) => {
     };
 
     return (
-<div className="lesson-detail">
-    <h2>{lesson.title}</h2>
-    <p>{lesson.order} - dars </p>
+        <div className="lesson-detail">
+            <h2>{lesson.title}</h2>
+            <p>{lesson.order} - dars </p>
 
-    {/* Video container */}
-    {lesson.video_url && !lesson.is_locked && (
-        <div style={{ width: '100%', maxHeight: '80vh', margin: '20px 0' }}>
-            <video
-                src={lesson.video_url}
-                controls
-                style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'contain', // cover emas, shunda butun video ko‘rinadi
-                    borderRadius: '8px',
-                }}
-            />
+            {/* Video container */}
+            {lesson.video_url && !lesson.is_locked && (
+                <div style={{ width: '100%', maxHeight: '80vh', margin: '20px 0' }}>
+                    <video
+                        src={lesson.video_url}
+                        controls
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'contain', // cover emas, shunda butun video ko‘rinadi
+                            borderRadius: '8px',
+                        }}
+                    />
+                </div>
+            )}
+
+            {/* Tugmalar */}
+            <div style={{ marginTop: '20px', display: 'flex', gap: '10px' }}>
+                {!lesson.is_completed && (
+                    <button className="btn btn-primary" onClick={() => handleComplete(lesson.id)}>
+                        Mark as Complete
+                    </button>
+                )}
+                {lesson.has_quiz && (
+                    <button className="btn btn-success" onClick={() => navigate(`/lessons/${lesson.id}/quiz`)}>
+                        Go to Quiz
+                    </button>
+                )}
+            </div>
         </div>
-    )}
-
-    {/* Tugmalar */}
-    <div style={{ marginTop: '20px', display: 'flex', gap: '10px' }}>
-        {!lesson.is_completed && (
-            <button className="btn btn-primary" onClick={() => handleComplete(lesson.id)}>
-                Mark as Complete
-            </button>
-        )}
-        {lesson.has_quiz && (
-            <button className="btn btn-success" onClick={() => navigate(`/lessons/${lesson.id}/quiz`)}>
-                Go to Quiz
-            </button>
-        )}
-    </div>
-</div>
 
     );
 };

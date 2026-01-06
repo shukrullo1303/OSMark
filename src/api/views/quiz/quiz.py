@@ -4,20 +4,12 @@ from src.api.views.base import *
 class QuizViewSet(BaseViewSet):
     queryset = QuizModel.objects.all()
     serializer_class = QuizSerializer
-    search_fields = ("title", "description")
-    ordering_fields = ("created_at", "title")
-    ordering = ("-created_at",)
 
     @action(detail=True, methods=['post'], url_path='submit', permission_classes=[IsAuthenticated])
     def submit(self, request, pk=None):
-        """
-        Frontenddan answers olib, score va correct answers qaytaradi.
-        """
         quiz = self.get_object()
         answers = request.data.get('answers', {})
-
-        if not isinstance(answers, dict):
-            return Response({"detail": "Invalid data format."}, status=400)
+        user = request.user
 
         correct = 0
         total = quiz.questions.count()
@@ -33,9 +25,26 @@ class QuizViewSet(BaseViewSet):
 
         score = round((correct / total) * 100, 2) if total else 0
 
+        # 🔹 DATABASEGA SAQLASH
+        quiz_result, created = QuizResultModel.objects.update_or_create(
+            user=user,
+            quiz=quiz,
+            defaults={'score': score}
+        )
+
         return Response({
             "score": score,
             "correct_answers": correct,
             "total_questions": total,
             "passing_score": float(quiz.passing_score or 70),
-        }, status=200)
+            "result_id": quiz_result.id,
+            "created": created
+        })
+    
+    
+    @action(detail=True, methods=['get'], permission_classes=[IsAuthenticated])
+    def user_results(self, request, pk=None):
+        quiz = self.get_object()
+        results = quiz.results.filter(user=request.user)  # faqat current user
+        serializer = QuizResultSerializer(results, many=True)
+        return Response(serializer.data)

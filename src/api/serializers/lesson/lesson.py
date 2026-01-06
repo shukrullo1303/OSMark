@@ -1,31 +1,23 @@
 from src.api.serializers.base import *
-
+from src.api.serializers.quiz.quiz import QuizSerializer
 
 class LessonSerializer(BaseSerializer):
     is_locked = serializers.SerializerMethodField()
-    has_quiz = serializers.SerializerMethodField()
-    quiz_id = serializers.SerializerMethodField()
+    quizzes = QuizSerializer(many=True)
     next_lesson_id = serializers.SerializerMethodField()
     prev_lesson_id = serializers.SerializerMethodField()
+
     class Meta:
         model = LessonModel
         fields = ['id', 'title', 'order', 'video_url', 
-                  'is_locked', 'course_id', 'created_at', 'updated_at', 'has_quiz', 
-                  'quiz_id', 'next_lesson_id', "prev_lesson_id"]
+                  'is_locked', 'course_id', 'created_at', 'updated_at', 
+                  'quizzes', 'next_lesson_id', "prev_lesson_id"]
 
     def get_is_locked(self, lesson):
         request = self.context['request']
         return not can_user_open_lesson(request.user, lesson)
 
-    def get_has_quiz(self, obj):
-        return obj.quizzes.exists()  # querysetni tekshiradi
 
-    def get_quiz_id(self, obj):
-        first_quiz = obj.quizzes.first()  # birinchi quizni oladi
-        if first_quiz:
-            return first_quiz.id
-        return None
-    
     def get_next_lesson_id(self, lesson):
         next_lesson = LessonModel.objects.filter(
             course_id=lesson.course_id,
