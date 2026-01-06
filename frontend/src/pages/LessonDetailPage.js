@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getLesson, markProgress } from "../services/lessons";
+import { getLesson, markLessonCompleted } from "../services/lessons";
 import Quiz from "../components/Quiz"
 import { getUserQuizResult } from "../services/quiz";
 import "../styles/pages/LessonDetailPage.css";
@@ -38,8 +38,12 @@ export default function LessonDetailPage() {
   };
 
   const goNext = async () => {
-    await markProgress(lesson.id, { completed: true });
-    navigate(`/lessons/${lesson.next_lesson_id}`);
+    try {
+      await markLessonCompleted(lesson.id); // 8000 port
+      navigate(`/lessons/${lesson.next_lesson_id}`);
+    } catch (err) {
+      console.error("Mark complete error:", err);
+    }
   };
 
   if (loading) return <div className="site-container">Loading...</div>;
