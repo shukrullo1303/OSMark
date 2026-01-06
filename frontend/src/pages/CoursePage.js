@@ -61,12 +61,12 @@ const CoursePage = () => {
     };
 
     if (loading) return <div className="site-container"><div className="loading-state">Loading course...</div></div>;
-    if (!course) return <div className="site-container"><div className="empty-state">Course not found</div></div>;
+    if (!course) return <div className="site-container"><div className="empty-state">Kurs topilmadi.</div></div>;
 
     return (
         <div className="site-container">
             <div className="breadcrumb">
-                <Link to="/">Home</Link>
+                <Link to="/">Bosh sahifa</Link>
                 <span>/</span>
                 <span>{course.title}</span>
             </div>
@@ -91,16 +91,16 @@ const CoursePage = () => {
             <div className="course-layout sidebar">
                 <div className="course-main">
                     <section className="course-section">
-                        <h2>About this course</h2>
+                        <h2>Kurs haqida</h2>
                         <p className="course-description">
                             {course.description}
                         </p>
                     </section>
 
                     <section className="course-section">
-                        <h2>Lessons ({lessons.length})</h2>
+                        <h2>Darslar ({lessons.length})</h2>
                         {lessons.length === 0 ? (
-                            <div className="empty-state">No lessons yet</div>
+                            <div className="empty-state">Darslar yo'q</div>
                         ) : (
                             <div className="lesson-grid">
                                 {lessons.map((l, idx) => (
@@ -114,17 +114,17 @@ const CoursePage = () => {
 
                 <aside className="course-sidebar">
                     <div className="sidebar-card">
-                        <h4>Course Details</h4>
+                        <h4>Kurs ma'lumotlari</h4>
                         <div className="detail-item">
-                            <span className="detail-label">Instructor</span>
+                            <span className="detail-label">O'qituvchi</span>
                             <span className="detail-value">{course.instructor_name || 'TBA'}</span>
                         </div>
                         <div className="detail-item">
-                            <span className="detail-label">Level</span>
-                            <span className="detail-value">{course.level || 'All levels'}</span>
+                            <span className="detail-label">Daraja</span>
+                            <span className="detail-value">{course.level || 'noaniq'}</span>
                         </div>
                         <div className="detail-item">
-                            <span className="detail-label">Lessons</span>
+                            <span className="detail-label">Darslar</span>
                             <span className="detail-value">{lessons.length}</span>
                         </div>
                         <div className="detail-item">

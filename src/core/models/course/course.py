@@ -6,7 +6,7 @@ class CourseModel(BaseModel):
     slug = models.SlugField(unique=True, blank=True)
     description = models.TextField()
     category = models.ForeignKey("CategoryModel", on_delete=models.SET_NULL, null=True, blank=True, related_name='courses')
-    price = models.DecimalField(max_digits=12, decimal_places=2)
+    price = models.DecimalField(max_digits=12, decimal_places=0)
     thumbnail = models.ImageField(upload_to='course_thumbnails/', blank=True, null=True)
     level = models.CharField(max_length=50, choices=[('beginner', 'Beginner'), ('intermediate', 'Intermediate'), ('advanced', 'Advanced')])
 

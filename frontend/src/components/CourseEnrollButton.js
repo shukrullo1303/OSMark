@@ -16,7 +16,7 @@ const CourseEnrollButton = ({ courseId, onEnroll }) => {
     try {
       const res = await api.post(`courses/courses/${courseId}/enroll/`);
       if (res.status === 201 || res.status === 200) {
-        onEnroll?.(); // parent componentga xabar berish
+        onEnroll?.(); // parent componentga xabar berishx
       }
     } catch (err) {
       setError(err.response?.data?.detail || 'Enrollment failed');
@@ -28,7 +28,7 @@ const CourseEnrollButton = ({ courseId, onEnroll }) => {
   return (
     <>
       <Button onClick={handleEnroll} disabled={loading}>
-        {loading ? 'Enrolling...' : 'Enroll Now'}
+        {loading ? `Ro'yxatdan otilmoqda...` : `Ro'yxatdan otish`}
       </Button>
       {error && <div className="text-danger mt-1">{error}</div>}
     </>

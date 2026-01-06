@@ -32,10 +32,10 @@ const Home = () => {
     <div className="site-container">
       <div className="hero">
         <h1>Learn anything, achieve everything</h1>
-        <p>Explore thousands of courses and master new skills at your own pace.</p>
+        <p>Bizning kurslarni o'rganing va o'z yo'lingizda yangi ko'nikmalarni egallang.</p>
         <div className="search-bar">
           <input
-            placeholder="Search courses, topics, or skills..."
+            placeholder="Kurslarni qidirish..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="hero-search"
@@ -45,18 +45,18 @@ const Home = () => {
 
       <div className="home-section">
         <div className="section-header">
-          <h2>Recommended for you</h2>
-          <p className="section-desc">Discover new opportunities to learn</p>
+          <h2>Siz uchun tavsiya qilinadi</h2>
+          <p className="section-desc">Yangi imkoniyatlarni ochish uchun o'rganing</p>
         </div>
 
         {loading ? (
           <div className="loading-state">
-            <p>Loading courses...</p>
+            <p>Kurslar yuklanmoqda...</p>
           </div>
         ) : filteredCourses.length === 0 ? (
           <div className="empty-state">
-            <p>No courses found</p>
-            {searchQuery && <p className="empty-desc">Try adjusting your search</p>}
+            <p>Kurslar topilmadi</p>
+            {searchQuery && <p className="empty-desc">Qidiruvni qaytadan ko'rib chiqing</p>}
           </div>
         ) : (
           <div className="course-grid">

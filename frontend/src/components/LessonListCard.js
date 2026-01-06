@@ -21,7 +21,7 @@ const LessonListCard = ({ lesson }) => {
                     onClick={handleOpen}
                     disabled={lesson.is_locked} // locked darslarni ochmaslik
                 >
-                    Open
+                    Ochish
                 </Button>
             </Card.Body>
         </Card>

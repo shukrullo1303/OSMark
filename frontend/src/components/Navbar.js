@@ -23,12 +23,12 @@ const Navigation = () => {
     return (
         <nav className="navbar">
             <div className="site-container navbar-content">
-                <Link to="/" className="nav-brand">LMS</Link>
+                <Link to="/" className="nav-brand">OsonMarketing</Link>
 
                 <form onSubmit={doSearch} className="search-form">
                     <input
                         type="text"
-                        placeholder="Search courses..."
+                        placeholder="Kurslar bo'yicha qidiruv"
                         value={q}
                         onChange={(e) => setQ(e.target.value)}
                         className="search-input"
@@ -43,16 +43,16 @@ const Navigation = () => {
                                 <span className="user-name">{user.username || user.email}</span>
                             </Link>
                             <button onClick={handleLogout} className="btn btn-outline-primary">
-                                Logout
+                                Chiqish
                             </button>
                         </>
                     ) : (
                         <>
                             <Link to="/login" className="btn btn-primary">
-                                Login
+                                Kirish
                             </Link>
                             <Link to="/register" className="btn btn-outline-primary">
-                                Sign up
+                                Registratsiya
                             </Link>
                         </>
                     )}
@@ -70,14 +70,14 @@ const Navigation = () => {
                 <div className="mobile-menu">
                     {user && (
                         <>
-                            <Link to="/profile" className="mobile-link">Profile</Link>
-                            <button onClick={handleLogout} className="mobile-link">Logout</button>
+                            <Link to="/profile" className="mobile-link">Profil</Link>
+                            <button onClick={handleLogout} className="mobile-link">Chiqish</button>
                         </>
                     )}
                     {!user && (
                         <>
-                            <Link to="/login" className="mobile-link">Login</Link>
-                            <Link to="/register" className="mobile-link">Sign up</Link>
+                            <Link to="/login" className="mobile-link">Kirish</Link>
+                            <Link to="/register" className="mobile-link">Registratsiya</Link>
                         </>
                     )}
                 </div>

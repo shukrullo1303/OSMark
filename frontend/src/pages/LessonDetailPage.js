@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getLesson, markLessonCompleted } from "../services/lessons";
-import Quiz from "../components/Quiz"
 import { getUserQuizResult } from "../services/quiz";
 import "../styles/pages/LessonDetailPage.css";
 
@@ -55,18 +54,19 @@ export default function LessonDetailPage() {
       {/* {lesson.video_url && (
         <video src={lesson.video_url} controls style={{ width: "100%", height: "70vh" }} />
       )} */}
-      <div className="video-container">
+      {lesson.video_url &&
+        <div className="video-container">
 
-        <iframe
-          src={`https://www.youtube.com/embed/${lesson.video_url.split("youtu.be/")[1]}`}
-          title="YouTube video player"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        ></iframe>
+          <iframe
+            src={`https://www.youtube.com/embed/${lesson.video_url.split("youtu.be/")[1]}`}
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
 
-      </div>
-
+        </div>
+      }
 
       {/* ================= QUIZ BLOCK ================= */}
       {lesson.quizzes && (
@@ -76,44 +76,46 @@ export default function LessonDetailPage() {
               className="btn btn-primary"
               onClick={() => navigate(`/quiz/${lesson.quizzes[0].id}`)}
             >
-              Take Quiz
+              Testni ishlash
             </button>
           ) :
             (
-              <div>
+              <div className="d-flex  justify-content-between align-items-center">
 
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-primary my-3"
                   onClick={() => navigate(`/quiz/${lesson.quizzes[0].id}`)}
                 >
-                  Retake Quiz
+                  Testni qayta ishlash
                 </button>
                 <p>
-                  your score is {result}
+                  Test natijangiz: {result} %
                 </p>
               </div>
             )
-
           }
-
         </div>
       )
       }
 
       {/* ================= NAV ================= */}
-      <div className="lesson-nav">
-        {lesson.prev_lesson_id && (
-          <button className="btn btn-outline-secondary"
+      <div className="lesson-nav d-flex justify-content-between">
+        {lesson.prev_lesson_id ? (
+          <button className="btn btn-outline-secondary my-3"
             onClick={() => navigate(`/lessons/${lesson.prev_lesson_id}`)}>
-            ← Prev Lesson
+            ← Avvalgi dars
           </button>
-        )}
+        ) :
+          (
+            <div></div>
+          )
+        }
 
         {lesson.next_lesson_id && (
-          <button className="btn btn-success"
+          <button className="btn btn-success mb-3"
             disabled={!(result >= 80)}
             onClick={goNext}>
-            Next Lesson →
+            Keyingi dars →
           </button>
         )}
       </div>
