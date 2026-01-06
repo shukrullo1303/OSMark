@@ -69,3 +69,15 @@ def complete_quiz(user, quiz):
     if next_lesson:
         # Bu yerda keyingi darsning `locked` statusi frontendga `is_locked=False` qilib yuboriladi
         pass
+
+# Enroll qilgandan keyin lesson unlock
+def enroll_user_to_course(user, course):
+    enrollment, _ = EnrollmentModel.objects.get_or_create(user=user, course=course)
+    enrollment.is_paid = True
+    enrollment.save()
+
+    # Kursdagi birinchi darsni ochish
+    first_lesson = LessonModel.objects.filter(course=course, order=1).first()
+    if first_lesson:
+        first_lesson.is_locked = False
+        first_lesson.save()

@@ -29,6 +29,7 @@ const CoursePage = () => {
             try {
                 const res2 = await getLessonsByCourse(id);
                 setLessons(Array.isArray(res2.data) ? res2.data : res2.data.results || []);
+                console.log(res2.data)
             } catch (e) {
                 setLessons([]);
             }

@@ -6,6 +6,7 @@ class EnrollmentModel(BaseModel):
     course = models.ForeignKey('CourseModel', on_delete=models.CASCADE, related_name='enrollments')
     enrolled_at = models.DateTimeField(default=timezone.now)
     progress = models.DecimalField(max_digits=5, decimal_places=2, default=0.00) 
+    is_paid = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, default=False)
 
     class Meta:
         unique_together = ('user', 'course')
