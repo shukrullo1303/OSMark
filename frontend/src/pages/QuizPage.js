@@ -21,8 +21,8 @@ const QuizPage = () => {
             try {
                 const res = await getQuiz(id);   // /api/quiz/:id/
                 setQuiz(res.data);
-                  const resultRes = await getUserQuizResult(id); // /api/quiz/:id/user_results/
-                  setResult(resultRes.data);
+                const resultRes = await getUserQuizResult(id); // /api/quiz/:id/user_results/
+                setResult(resultRes.data);
 
             } catch (err) {
                 console.error('Quiz load error:', err);
@@ -68,14 +68,13 @@ const QuizPage = () => {
                     </p>
 
                     <div className="quiz-result-actions">
-                        {passed && (
-                            <button
-                                className="btn btn-success"
-                                onClick={() => navigate(`/lessons/${quiz.lesson}`)}
-                            >
-                                Back to Lesson
-                            </button>
-                        )}
+                        <button
+                            className="btn btn-success"
+                            onClick={() => navigate(`/lessons/${quiz.lesson}`)}
+                        >
+                            Back to Lesson
+                        </button>
+
 
                         <button
                             className="btn btn-primary"

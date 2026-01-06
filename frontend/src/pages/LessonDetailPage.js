@@ -52,9 +52,21 @@ export default function LessonDetailPage() {
     <div className="site-container lesson-detail-page">
       <h1>{lesson.title}</h1>
 
-      {lesson.video_url && (
+      {/* {lesson.video_url && (
         <video src={lesson.video_url} controls style={{ width: "100%", height: "70vh" }} />
-      )}
+      )} */}
+      <div className="video-container">
+
+        <iframe
+          src={`https://www.youtube.com/embed/${lesson.video_url.split("youtu.be/")[1]}`}
+          title="YouTube video player"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        ></iframe>
+
+      </div>
+
 
       {/* ================= QUIZ BLOCK ================= */}
       {lesson.quizzes && (
