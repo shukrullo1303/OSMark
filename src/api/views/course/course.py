@@ -59,8 +59,7 @@ class CourseViewSet(BaseViewSet):
             return Response({"detail": "DB error, enrollment failed"}, status=400)
 
         return Response({"detail": "Successfully enrolled"}, status=201)
-
-
+    
     
     @action(detail=True, methods=['get'], permission_classes=[IsAuthenticated], url_path='is-enrolled')
     def is_enrolled(self, request, pk=None):
@@ -68,3 +67,6 @@ class CourseViewSet(BaseViewSet):
         user = request.user
         enrolled = EnrollmentModel.objects.filter(user=user, course=course).exists()
         return Response({"enrolled": enrolled})
+        
+
+    
