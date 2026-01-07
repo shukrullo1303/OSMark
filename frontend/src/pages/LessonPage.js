@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getLesson, getLessonsByCourse, markProgress } from '../services/lessons';
+import { getLesson, getLessonsByCourse, markProgress, getLessonProgress } from '../services/lessons';
 import LessonListCard from '../components/LessonListCard';
 import { useAuth } from '../context/AuthContext';
 import { getUserQuizResult } from '../services/quiz';
@@ -11,12 +11,15 @@ const LessonPage = () => {
     const { user } = useAuth();
     const [lessons, setLessons] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [lesson_progress, setLessonProgress] = useState(null)
 
     useEffect(() => {
         const loadLessons = async () => {
             try {
                 const res = await getLesson(id); // backend API: /courses/:id/lessons/
                 setLessons(res.data);
+                const res_lesson_progress = await getLessonProgress(id)
+                setLessonProgress(res_lesson_progress.data)
             } catch (err) {
                 console.error(err);
             } finally {
@@ -49,18 +52,19 @@ const LessonPage = () => {
     return (
         <div className="site-container">
             <h2>Lessons</h2>
+            
             <div className="lessons-list">
                 {lessons.map((lesson, idx) => (
                     <div key={lesson.id} className="lesson-item">
                         <LessonListCard
                             lesson={{
                                 ...lesson,
-                                is_locked: lesson.is_locked, // backenddan kelgan
+                                lesson_progress: lesson_progress, // backenddan kelgan
                                 has_quiz: lesson.quiz !== null,
                             }}
                         />
                         {/* Completed tugmasi lesson pastida */}
-                        {!lesson.is_locked && !lesson.is_completed && (
+                        {!lesson.is_completed && (
                             <button
                                 className="btn btn-sm btn-primary mt-1"
                                 onClick={() => handleComplete(lesson.id)}

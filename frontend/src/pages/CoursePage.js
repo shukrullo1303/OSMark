@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getCourse } from '../services/courses';
-import { getLessonsByCourse } from '../services/lessons';
+import { getLessonsByCourse, getLessonProgress } from '../services/lessons';
 import LessonListCard from '../components/LessonListCard';
 import { enrollCourse, checkEnrolled } from '../services/enrollments';
 import { useAuth } from '../context/AuthContext';
@@ -104,13 +104,33 @@ const CoursePage = () => {
                             <div className="empty-state">Darslar yo'q</div>
                         ) : (
                             <div className="lesson-grid">
-                                {lessons.map((l, idx) => (
-                                    <LessonListCard key={l.id} lesson={l} index={idx + 1} />
-                                ))}
+                                {lessons.map((lesson, idx) => {
+                                    // Foydalanuvchining progressini olish
+                                    const userProgress = lesson.progress_records?.find(pr => pr.user === user?.id);
+
+                                    // Oldingi lesson progressini topish
+                                    const prevLesson = lessons.find(l => l.id === lesson.prev_lesson_id);
+                                    const prevProgress = prevLesson?.progress_records?.find(pr => pr.user === user?.id);
+
+                                    // Lesson ochiq bo‘lish sharti
+                                    const isOpen = enrolled && (
+                                        lesson.prev_lesson_id === null || // birinchi lesson
+                                        prevProgress?.completed           // oldingi lesson completed bo‘lsa
+                                    );
+                                    return (
+                                        <LessonListCard
+                                            key={lesson.id}
+                                            lesson={lesson}
+                                            index={idx + 1}
+                                            isOpen={isOpen}  // button LessonListCard ichida shu shartga qarab
+                                        />
+                                    );
+                                })}
 
                             </div>
                         )}
                     </section>
+
                 </div>
 
                 <aside className="course-sidebar">

@@ -33,7 +33,7 @@ const LessonCard = ({ lesson, refreshLesson }) => {
             <p>{lesson.order} - dars </p>
 
             {/* Video container */}
-            {lesson.video_url && !lesson.is_locked && (
+            {lesson.video_url && (
                 <div style={{ width: '100%', maxHeight: '80vh', margin: '20px 0' }}>
                     <video
                         src={lesson.video_url}

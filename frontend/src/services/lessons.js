@@ -2,6 +2,8 @@ import api from './api';
 import axios from 'axios';
 
 
+export const getLessonProgress = (lessonId) =>
+    api.get(`/lesson_progress/?lesson=${lessonId}`);
 
 export const getLessonsByCourse = (courseId, token) =>
     api.get(`/lessons/?course=${courseId}`, { headers: { Authorization: `Bearer ${token}` } });

@@ -1,8 +1,8 @@
 import { Card, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { isRouteErrorResponse, useNavigate } from 'react-router-dom';
 import "../styles/components/LessonCard.css"
 
-const LessonListCard = ({ lesson }) => {
+const LessonListCard = ({ lesson, isOpen }) => {
     const navigate = useNavigate();
 
     const handleOpen = () => {
@@ -19,7 +19,7 @@ const LessonListCard = ({ lesson }) => {
                 <Button
                     variant="outline-primary"
                     onClick={handleOpen}
-                    disabled={lesson.is_locked} // locked darslarni ochmaslik
+                    disabled={!isOpen} // locked darslarni ochmaslik
                 >
                     Ochish
                 </Button>
