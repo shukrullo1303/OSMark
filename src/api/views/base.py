@@ -1,4 +1,4 @@
-from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser,  AllowAny, IsAuthenticated
 from rest_framework.decorators import action
@@ -14,9 +14,10 @@ from src.core.models import *
 from src.api.serializers import *
 from src.api.views.utils import can_user_open_lesson
 from src.shared.pagination import *
+from src.api.permission import IsAdminOnly
 
 
-class BaseViewSet(ReadOnlyModelViewSet):
+class BaseViewSet(ModelViewSet):
     """
     A base view set that provides default `list()`, `create()`, `retrieve()`,
     `update()`, and `destroy()` actions.

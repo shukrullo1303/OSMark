@@ -9,7 +9,11 @@ class LessonViewSet(BaseViewSet):
     search_fields = ["course"]
     ordering_fields = ("created_at", "title")
     ordering = ("-created_at",)
-    
+
+    def get_permissions(self):
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            return [IsAdminOnly()]
+        return []
     
     @action(detail=True, methods=['post'], url_path="complete")
     def complete(self, request, pk=None):

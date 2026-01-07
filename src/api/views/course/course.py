@@ -33,10 +33,10 @@ class CourseViewSet(BaseViewSet):
     ordering = ("-created_at",)
     serializer_class = CourseSerializer
 
-    # def get_serializer_class(self):
-    #     if self.action == "retrieve":
-    #         return CourseDetailSerializer
-    #     return CourseSerializer
+    def get_permissions(self):
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            return [IsAdminOnly()]
+        return []
 
 
 
@@ -67,6 +67,6 @@ class CourseViewSet(BaseViewSet):
         user = request.user
         enrolled = EnrollmentModel.objects.filter(user=user, course=course).exists()
         return Response({"enrolled": enrolled})
-        
+
 
     
