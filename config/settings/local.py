@@ -10,6 +10,7 @@ EXTERNAL_APPS = [
     'drf_yasg',
     "debug_toolbar",
     'nested_admin',
+    'django_filters',
     
 ]
 
@@ -59,8 +60,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,
     }
 
 

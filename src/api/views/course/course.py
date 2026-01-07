@@ -5,6 +5,7 @@ from src.api.views.base import *
 class CourseViewSet(BaseViewSet):
     queryset = CourseModel.objects.all()
     search_fields = ("title", "description")
+    filter_backends = [DjangoFilterBackend, SearchFilter]
     ordering_fields = ("created_at", "title")
     ordering = ("-created_at",)
     serializer_class = CourseSerializer
@@ -13,15 +14,6 @@ class CourseViewSet(BaseViewSet):
     #     if self.action == "retrieve":
     #         return CourseDetailSerializer
     #     return CourseSerializer
-    
-    @action(detail=True, methods=['get'], url_path='lessons')
-    def lessons(self, request, pk=None):
-        course = self.get_object()
-        lessons = course.lessons.order_by('order')
-        serializer = LessonSerializer(
-            lessons, many=True, context={'request': request}
-        )
-        return Response(serializer.data)
 
     @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
     def enroll(self, request, pk=None):

@@ -1,11 +1,15 @@
 from src.api.views.base import *
 
 
+
 class QuizViewSet(BaseViewSet):
     queryset = QuizModel.objects.all()
     serializer_class = QuizSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = ['lesson']
+    search_fields = ("lesson")
 
-    @action(detail=True, methods=['post'], url_path='submit', permission_classes=[IsAuthenticated])
+    @action(detail=True, methods=['post'], url_path='submit')
     def submit(self, request, pk=None):
         quiz = self.get_object()
         answers = request.data.get('answers', {})
@@ -36,15 +40,7 @@ class QuizViewSet(BaseViewSet):
             "score": score,
             "correct_answers": correct,
             "total_questions": total,
-            "passing_score": float(quiz.passing_score or 70),
             "result_id": quiz_result.id,
             "created": created
         })
     
-    
-    @action(detail=True, methods=['get'], permission_classes=[IsAuthenticated])
-    def user_results(self, request, pk=None):
-        quiz = self.get_object()
-        results = quiz.results.filter(user=request.user)  # faqat current user
-        serializer = QuizResultSerializer(results, many=True)
-        return Response(serializer.data)

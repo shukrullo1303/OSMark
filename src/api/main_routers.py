@@ -4,6 +4,7 @@ urlpatterns = [
     path("courses/", include("src.api.urls.course")),
     path("lessons/", include("src.api.urls.lesson")),
     path("quiz/", include("src.api.urls.quiz")),
+    path('quiz_result/', include('src.api.urls.quiz_result')),
     path("", include("src.api.urls.swagger")),
     path("auth/", include("src.api.urls.auth")),
 ]

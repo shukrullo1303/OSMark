@@ -1,13 +1,13 @@
 import api from "./api";
 import axios from "axios";
 
-export const getQuiz = (id) => api.get(`/quiz/${id}/`);
+export const getQuiz = (quizId) => api.get(`/quiz/${quizId}`);
 export const submitQuiz = (id, answers) =>
-    api.post(`/quiz/${id}/submit/`, { answers });
+  api.post(`/quiz/${id}/submit/`, { answers });
 
 
 export const getUserQuizResult = async (quizId) => {
-  const token = localStorage.getItem("access_token"); // JWT token
+  const token = localStorage.getItem("access_token");
 
   if (!token) {
     console.error("No access token found");
@@ -15,8 +15,7 @@ export const getUserQuizResult = async (quizId) => {
   }
 
   try {
-    const res = await axios.get(
-      `http://127.0.0.1:8000/api/quiz/${quizId}/user_results/`,
+    const res = await api.get(`/quiz_result/?quiz=${quizId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -29,3 +28,5 @@ export const getUserQuizResult = async (quizId) => {
     return null;
   }
 };
+
+export const getQuizByLesson = (lessonId) => api.get(`/quiz/?lesson=${lessonId}`);

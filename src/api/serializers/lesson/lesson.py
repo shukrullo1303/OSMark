@@ -3,7 +3,7 @@ from src.api.serializers.quiz.quiz import QuizSerializer
 
 class LessonSerializer(BaseSerializer):
     is_locked = serializers.SerializerMethodField()
-    quizzes = QuizSerializer(many=True)
+    # quizzes = QuizSerializer(many=True)
     next_lesson_id = serializers.SerializerMethodField()
     prev_lesson_id = serializers.SerializerMethodField()
 

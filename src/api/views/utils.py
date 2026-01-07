@@ -1,6 +1,7 @@
 from src.api.views.base import *
 
 
+
 def can_user_open_lesson(user, lesson):
     course = lesson.course
 

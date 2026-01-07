@@ -5,7 +5,7 @@ class QuizModel(BaseModel):
     title = models.CharField(max_length=255)
     lesson = models.ForeignKey('LessonModel', on_delete=models.SET_NULL, null=True, related_name='quizzes')
     # total_questions = models.PositiveIntegerField()
-    passing_score = models.DecimalField(max_digits=5, decimal_places=2)
+
 
     def __str__(self):
         return self.title
