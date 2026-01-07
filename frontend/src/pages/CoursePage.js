@@ -1,3 +1,4 @@
+// pages/CoursePage.js
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getCourse } from '../services/courses';
@@ -8,6 +9,8 @@ import { useAuth } from '../context/AuthContext';
 import '../styles/pages/CoursePage.css';
 
 
+
+console.log(localStorage.getItem('access_token'));
 
 const CoursePage = () => {
     const { id } = useParams();
@@ -52,11 +55,13 @@ const CoursePage = () => {
 
     const handleEnroll = async () => {
         try {
-            await enrollCourse(course.id);
-            alert("Successfully enrolled!");
-            setEnrolled(true);
+            const res = await enrollCourse(course.id);
+            alert(res.data.detail);
+            if (res.data.detail === "Successfully enrolled") {
+                setEnrolled(true);
+            }
         } catch (err) {
-            console.error(err);
+            console.error("Enroll error:", err.response?.data);
             alert(err.response?.data?.detail || "Enroll failed");
         }
     };

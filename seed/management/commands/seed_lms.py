@@ -57,7 +57,6 @@ class Command(BaseCommand):
                 if i in self.QUIZ_LESSON_POSITIONS:
                     quiz = QuizModel.objects.create(
                         lesson=lesson,
-                        passing_score=70
                     )
                     for _ in range(self.QUESTIONS_PER_QUIZ):
                         question_text = fake.sentence(nb_words=8)
