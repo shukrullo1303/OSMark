@@ -103,9 +103,10 @@ const ProfilePage = () => {
                                             {/* Faqat 100% bo'lganda sertifikat tugmasi */}
                                             <div className="enrollment-header">
                                                 <h4>{e.course_title || e.course}</h4>
-                                                <span className="enrollment-status">Jarayonda</span>
-                                                {courseProgress.progress === 100 && <DownloadCertificateButton courseId={e.course} />}
-
+                                                {courseProgress.progress === 100 ?
+                                                    <DownloadCertificateButton courseId={e.course} /> :
+                                                    <span className="enrollment-status">Jarayonda</span>
+                                                }
                                             </div>
                                             <p className="enrollment-date">
                                                 Ro'yxatdan o'tilgan: {new Date(e.created_at).toLocaleDateString()}

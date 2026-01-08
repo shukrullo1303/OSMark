@@ -18,7 +18,7 @@ const DownloadCertificateButton = ({ courseId }) => {
     }
   };
 
-  return <button onClick={handleDownload}>Get Certificate</button>;
+  return <button onClick={handleDownload} className='btn btn-info'>Serfikat olish</button>;
 };
 
 export default DownloadCertificateButton;

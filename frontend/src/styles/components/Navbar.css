@@ -122,3 +122,21 @@
     background-color: var(--primary-50);
     color: var(--primary-600);
 }
+
+.navbar-content {
+    display: flex;
+    justify-content: space-between;
+    /* Brandni chapga, qolganini o'ngga suradi */
+    align-items: center;
+    /* Hammasini vertikal markazda tekislaydi */
+    width: 100%;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    /* Tugmalar orasidagi masofa */
+    margin-left: auto;
+    /* Agar qidiruv formasi bo'lsa ham, buni o'ngga suradi */
+}

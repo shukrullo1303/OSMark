@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import "../styles/components/CourseCard.css"
 
 const CourseCard = ({ course }) => {
   return (
@@ -15,7 +16,11 @@ const CourseCard = ({ course }) => {
         <div className="course-meta">
           <div className="tag">{course.level || 'noaniq'}</div>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-            <div className="price-badge">{(course.price == 0) ? 'Bepul' : ` ${course.price} uzs`}</div>
+            <div className="price-badge">
+              {course.is_free
+                ? 'Bepul'
+                : `${Number(course.price).toLocaleString('fr-FR').replace(',', ' ')} so'm`}
+            </div>
             <Link to={`/courses/${course.id}`} className="btn btn-outline-primary">Ko'rish</Link>
           </div>
         </div>

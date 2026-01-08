@@ -14,18 +14,18 @@ const Navigation = () => {
         nav('/');
     };
 
-    const doSearch = (e) => {
-        e.preventDefault();
-        nav(`/?q=${encodeURIComponent(q)}`);
-        setQ('');
-    };
+    // const doSearch = (e) => {
+    //     e.preventDefault();
+    //     nav(`/?q=${encodeURIComponent(q)}`);
+    //     setQ('');
+    // };
 
     return (
         <nav className="navbar">
             <div className="site-container navbar-content">
                 <Link to="/" className="nav-brand">OsonMarketing</Link>
 
-                <form onSubmit={doSearch} className="search-form">
+                {/* <form onSubmit={doSearch} className="search-form">
                     <input
                         type="text"
                         placeholder="Kurslar bo'yicha qidiruv"
@@ -33,7 +33,7 @@ const Navigation = () => {
                         onChange={(e) => setQ(e.target.value)}
                         className="search-input"
                     />
-                </form>
+                </form> */}
 
                 <div className="nav-right">
                     {user ? (

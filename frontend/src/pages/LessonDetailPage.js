@@ -24,7 +24,6 @@ export default function LessonDetailPage() {
       const res = await getLesson(id);
       const lessonData = res.data;
       setLesson(lessonData);
-      console.log("LESSON:", lessonData);
 
       // 2️⃣ Quizni olish
       try {
@@ -32,13 +31,11 @@ export default function LessonDetailPage() {
         if (quizRes.data.length > 0) {
           const quizData = quizRes.data[0]; // birinchi quizni olamiz
           setQuiz(quizData);
-          console.log("QUIZ:", quizData);
 
           // 3️⃣ User natijasini olish
           const resultRes = await getUserQuizResult(quizData.id); // quiz_id bilan
           if (resultRes && resultRes.length > 0) {
             setResult(resultRes[0].score); // array dan score olish
-            console.log("RESULT:", resultRes[0]);
           }
         }
       } catch (err) {

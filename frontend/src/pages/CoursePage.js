@@ -79,7 +79,11 @@ const CoursePage = () => {
                     <h1>{course.title}</h1>
                     <p className="course-subtitle">{course.subtitle || course.description?.slice(0, 120)}</p>
                     <div className="course-actions">
-                        <div className="price-badge">{course.is_free ? 'Free' : `$${course.price}`}</div>
+                        <div className="price-badge">
+                            {course.is_free
+                                ? 'Bepul'
+                                : `${Number(course.price).toLocaleString('fr-FR').replace(',', ' ')} so'm`}
+                        </div>
                         <button
                             onClick={handleEnroll}
                             className={`btn ${enrolled ? 'btn-secondary' : 'btn-primary'}`}
