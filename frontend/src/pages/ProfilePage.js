@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { getProfile } from '../services/auth';
 import { getMyEnrollments } from '../services/enrollments';
 import '../styles/pages/ProfilePage.css';
+import DownloadCertificateButton from '../components/DownloadCertificateButton'
 
 const ProfilePage = () => {
     const [user, setUser] = useState(null);
@@ -10,7 +11,21 @@ const ProfilePage = () => {
     const [loading, setLoading] = useState(true);
     const [progress, setProgress] = useState([]); // array of {course_id, course_title, progress}
 
+
     useEffect(() => {
+        const loadUser = async () => {
+            try {
+                const res = await api.get('/me/', {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('access_token')}`
+                    }
+                });
+                setUser(res.data);
+            } catch (err) {
+                console.error("User fetch error:", err);
+            }
+        };
+
         const loadProfile = async () => {
             try {
                 // 1. User
@@ -38,6 +53,7 @@ const ProfilePage = () => {
         };
 
         loadProfile();
+        loadUser();
     }, []);
 
     if (loading) {
@@ -59,6 +75,7 @@ const ProfilePage = () => {
                                 </div>
                                 <div className="profile-info">
                                     <h3>{user.username || 'User'} </h3>
+                                    <p className="">{user.first_name} {user.last_name}</p>
                                     <p className="profile-email">{user.email}</p>
                                     <p className="profile-joined">
                                         {new Date(user.date_joined || Date.now()).toLocaleDateString()} sanasida ro'yxatdan o'tgan
@@ -83,9 +100,12 @@ const ProfilePage = () => {
                                     const courseProgress = progress.find(p => p.course_id === e.course) || { progress: 0, course_title: e.course_title };
                                     return (
                                         <div key={e.id} className="enrollment-item">
+                                            {/* Faqat 100% bo'lganda sertifikat tugmasi */}
                                             <div className="enrollment-header">
                                                 <h4>{e.course_title || e.course}</h4>
                                                 <span className="enrollment-status">Jarayonda</span>
+                                                {courseProgress.progress === 100 && <DownloadCertificateButton courseId={e.course} />}
+
                                             </div>
                                             <p className="enrollment-date">
                                                 Ro'yxatdan o'tilgan: {new Date(e.created_at).toLocaleDateString()}
