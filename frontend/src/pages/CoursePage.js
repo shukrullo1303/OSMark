@@ -9,9 +9,6 @@ import { useAuth } from '../context/AuthContext';
 import '../styles/pages/CoursePage.css';
 
 
-
-console.log(localStorage.getItem('access_token'));
-
 const CoursePage = () => {
     const { id } = useParams();
     const { user } = useAuth();

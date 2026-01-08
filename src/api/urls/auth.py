@@ -76,3 +76,16 @@ urlpatterns = [
     path('me/', get_current_user, name='current_user'),
     path('register/', register_user, name='register'),
 ]
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def me(request):
+    user = request.user
+    return Response({
+        "id": user.id,
+        "username": user.username,
+        "email": user.email,
+        "is_staff": user.is_staff,
+        "is_superuser": user.is_superuser,
+    })

@@ -7,4 +7,4 @@ export const enrollCourse = (courseId) => {
 export const checkEnrolled = (courseId) => api.get(`courses/${courseId}/is-enrolled/`);
 
 
-export const getMyEnrollments = () => api.get('courses/enrollments/');
+export const getMyEnrollments = (userId) => api.get(`/enrollments/?${userId}`);

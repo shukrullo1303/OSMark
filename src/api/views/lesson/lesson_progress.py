@@ -1,24 +1,17 @@
 from src.api.views.base import *
 
 
+# example: Django ViewSet
 class LessonProgressViewSet(BaseViewSet):
-    """
-    ViewSet for managing lesson progress.
-    """
     queryset = LessonProgressModel.objects.all()
     serializer_class = LessonProgressSerializer
-    filter_backends = [DjangoFilterBackend, SearchFilter]
-    filterset_fields = ['lesson']
+    permission_classes = [IsAuthenticated]
 
-
-
-    # def get_queryset(self):
-    #     """
-    #     Optionally restricts the returned lesson progress to a given user,
-    #     by filtering against a `user_id` query parameter in the URL.
-    #     """
-    #     queryset = super().get_queryset()
-    #     user_id = self.request.query_params.get('user_id')
-    #     if user_id is not None:
-    #         queryset = queryset.filter(user__id=user_id)
-    #     return queryset
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        course_id = self.request.query_params.get('course')
+        if course_id:
+            queryset = queryset.filter(lesson__course__id=course_id, user=self.request.user)
+        else:
+            queryset = queryset.filter(user=self.request.user)
+        return queryset

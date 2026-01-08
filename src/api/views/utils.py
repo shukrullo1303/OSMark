@@ -82,3 +82,27 @@ def enroll_user_to_course(user, course):
     if first_lesson:
         first_lesson.is_locked = False
         first_lesson.save()
+
+
+from rest_framework.decorators import api_view, permission_classes
+from django.db.models import Count, Q
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def course_progress(request):
+    user = request.user
+    enrollments = EnrollmentModel.objects.filter(user=user)
+    result = []
+
+    for enroll in enrollments:
+        lessons = LessonModel.objects.filter(course=enroll.course)
+        total = lessons.count()
+        done = LessonProgressModel.objects.filter(user=user, lesson__in=lessons, completed=True).count()
+        percent = 0 if total == 0 else round(done / total * 100)
+        result.append({
+            'course_id': enroll.course.id,
+            'course_title': enroll.course.title,
+            'progress': percent
+        })
+
+    return Response(result)

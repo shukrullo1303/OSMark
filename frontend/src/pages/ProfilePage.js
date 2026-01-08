@@ -1,3 +1,4 @@
+import api from '../services/api';
 import React, { useEffect, useState } from 'react';
 import { getProfile } from '../services/auth';
 import { getMyEnrollments } from '../services/enrollments';
@@ -7,30 +8,42 @@ const ProfilePage = () => {
     const [user, setUser] = useState(null);
     const [enrollments, setEnrollments] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [progress, setProgress] = useState([]); // array of {course_id, course_title, progress}
 
     useEffect(() => {
-        const load = async () => {
+        const loadProfile = async () => {
             try {
-                const res = await getProfile();
-                setUser(res.data);
-            } catch (e) {
-                console.error(e);
-                setUser(null);
+                // 1. User
+                const profileRes = await getProfile();
+                const user = profileRes.data;
+                setUser(user);
+
+                // 2. Enrollments
+                const enrollRes = await getMyEnrollments(user.id);
+                const enrollments = Array.isArray(enrollRes.data)
+                    ? enrollRes.data
+                    : enrollRes.data.results || [];
+                setEnrollments(enrollments);
+
+                // 3. Course progress (backend hisoblagan)
+                const progressRes = await api.get('/course-progress/');
+                // progressRes.data => [{course_id, course_title, progress}, ...]
+                setProgress(progressRes.data);
+
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setLoading(false);
             }
-            try {
-                const res2 = await getMyEnrollments();
-                setEnrollments(Array.isArray(res2.data) ? res2.data : res2.data.results || []);
-            } catch (e) {
-                console.error(e);
-                setEnrollments([]);
-            }
-            setLoading(false);
-        }
-        load();
-    }, [])
+        };
+
+        loadProfile();
+    }, []);
 
     if (loading) {
-        return <div className="site-container"><div className="loading-state">Profil yuklanmoqda...</div></div>;
+        return <div className="site-container">
+            <div className="loading-state">Profil yuklanmoqda...</div>
+        </div>;
     }
 
     return (
@@ -47,11 +60,13 @@ const ProfilePage = () => {
                                 <div className="profile-info">
                                     <h3>{user.username || 'User'} </h3>
                                     <p className="profile-email">{user.email}</p>
-                                    <p className="profile-joined">{new Date(user.date_joined || Date.now()).toLocaleDateString()} sanasida ro'yxatdan o'tgan</p>
+                                    <p className="profile-joined">
+                                        {new Date(user.date_joined || Date.now()).toLocaleDateString()} sanasida ro'yxatdan o'tgan
+                                    </p>
                                 </div>
                             </div>
                         ) : (
-                            <div className="empty-state">Profil topilmadi! </div>
+                            <div className="empty-state">Profil topilmadi!</div>
                         )}
                     </section>
 
@@ -64,23 +79,26 @@ const ProfilePage = () => {
                             </div>
                         ) : (
                             <div className="enrollments-list">
-                                {enrollments.map((e) => (
-                                    <div key={e.id} className="enrollment-item">
-                                        <div className="enrollment-header">
-                                            <h4>{e.course_title || e.course}</h4>
-                                            <span className="enrollment-status">Jarayonda</span>
-                                        </div>
-                                        <p className="enrollment-date">
-                                            Ro'yxatdan o'tilgan: {new Date(e.created_at).toLocaleDateString()}
-                                        </p>
-                                        <div className="enrollment-progress">
-                                            <div className="progress-bar">
-                                                <div className="progress-fill" style={{ width: '35%' }}></div>
+                                {enrollments.map((e) => {
+                                    const courseProgress = progress.find(p => p.course_id === e.course) || { progress: 0, course_title: e.course_title };
+                                    return (
+                                        <div key={e.id} className="enrollment-item">
+                                            <div className="enrollment-header">
+                                                <h4>{e.course_title || e.course}</h4>
+                                                <span className="enrollment-status">Jarayonda</span>
                                             </div>
-                                            <small>35% complete</small>
+                                            <p className="enrollment-date">
+                                                Ro'yxatdan o'tilgan: {new Date(e.created_at).toLocaleDateString()}
+                                            </p>
+                                            <div className="enrollment-progress">
+                                                <div className="progress-bar">
+                                                    <div className="progress-fill" style={{ width: `${courseProgress.progress}%` }}></div>
+                                                </div>
+                                                <small>{courseProgress.progress}% complete</small>
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    )
+                                })}
                             </div>
                         )}
                     </section>
@@ -94,12 +112,14 @@ const ProfilePage = () => {
                             <span className="stat-label">Ro'yxatdan o'tilgan kurslar</span>
                         </div>
                         <div className="stat-item">
-                            <span className="stat-value">0</span>
+                            <span className="stat-value">
+                                {progress.filter(p => p.progress === 100).length}
+                            </span>
                             <span className="stat-label">Tugatilgan kurslar</span>
                         </div>
                         <div className="stat-item">
                             <span className="stat-value">0</span>
-                            <span className="stat-label">sertifikatlar</span>
+                            <span className="stat-label">Sertifikatlar</span>
                         </div>
                     </div>
                 </aside>
