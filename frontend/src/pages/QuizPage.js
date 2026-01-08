@@ -61,7 +61,7 @@ const QuizPage = () => {
     };
 
     if (loading) return <div className="site-container">Loading...</div>;
-    if (!quiz) return <div className="site-container">No quiz found</div>;
+    if (!quiz) return <div className="site-container">Testlar topilmadi</div>;
 
     const passed = result && result.score >= 80;
     const correctAnswers = result ? result.correct_answers : 0;
@@ -79,23 +79,23 @@ const QuizPage = () => {
                         <>
                             <h2>{passed ? "Passed" : "Failed"}</h2>
                             <p>
-                                <b>Score:</b> {result.score}%
+                                <b>Ball:</b> {result.score}%
                             </p>
                             <p>
-                                <b>Correct:</b> {correctAnswers} / {totalQuestions}
+                                <b>To'gri javob:</b> {correctAnswers} / {totalQuestions}
                             </p>
                         </>
                     )}
 
                     <div className="quiz-actions d-flex gap-2 mt-3">
                         <button className="btn btn-primary" onClick={handleRetake}>
-                            Retake Quiz
+                            Testni qayta topshirish
                         </button>
                         <button
                             className="btn btn-success"
                             onClick={() => navigate(`/lessons/${quiz.lesson}`)}
                         >
-                            Back to Lesson
+                            Darsga qaytish
                         </button>
                     </div>
                 </div>

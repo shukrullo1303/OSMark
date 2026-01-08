@@ -52,8 +52,8 @@ const RegisterPage = () => {
         <div className="auth-container">
             <div className="auth-card">
                 <div className="auth-header">
-                    <h1>Create your account</h1>
-                    <p>Join our learning community today</p>
+                    <h1>Yangi akkauntingizni oching</h1>
+                    <p>Bizning o'quv platformamizga bugunoq qo'shiling</p>
                 </div>
 
                 {error && (
@@ -64,7 +64,7 @@ const RegisterPage = () => {
 
                 <form onSubmit={handleSubmit} className="auth-form">
                     <div className="form-group">
-                        <label className="form-label">First Name</label>
+                        <label className="form-label">Ism</label>
                         <input
                             type="text"
                             value={data.first_name}
@@ -75,7 +75,7 @@ const RegisterPage = () => {
                     </div>
 
                     <div className="form-group">
-                        <label className="form-label">Last Name</label>
+                        <label className="form-label">Familiya</label>
                         <input
                             type="text"
                             value={data.last_name}
@@ -98,7 +98,7 @@ const RegisterPage = () => {
                     </div>
 
                     <div className="form-group">
-                        <label className="form-label">Email address</label>
+                        <label className="form-label">Elektron pochta adresi</label>
                         <input
                             type="email"
                             value={data.email}
@@ -110,7 +110,7 @@ const RegisterPage = () => {
                     </div>
 
                     <div className="form-group">
-                        <label className="form-label">Password</label>
+                        <label className="form-label">Parol</label>
                         <input
                             type="password"
                             value={data.password}
@@ -119,7 +119,7 @@ const RegisterPage = () => {
                             className="form-control"
                             required
                         />
-                        <small className="form-helper">At least 6 characters</small>
+                        <small className="form-helper">Kamida 6ta belgidan iborat bo'lishi kerak</small>
                     </div>
 
                     <button
@@ -132,7 +132,7 @@ const RegisterPage = () => {
                 </form>
 
                 <div className="auth-footer">
-                    <p>Already have an account? <Link to="/login">Sign in</Link></p>
+                    <p>Avvaldan akkauntingiz bormi? <Link to="/login">Kirish</Link></p>
                 </div>
             </div>
         </div>

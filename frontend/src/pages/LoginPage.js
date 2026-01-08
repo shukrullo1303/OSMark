@@ -29,13 +29,13 @@ const LoginPage = () => {
         <div className="auth-container">
             <div className="auth-card">
                 <div className="auth-header">
-                    <h1>Welcome back</h1>
-                    <p>Sign in to access your courses</p>
+                    <h1>Hush kelibsiz!</h1>
+                    <p>Kurslaringizga kirish uchun akkauntingizga kiring</p>
                 </div>
 
                 {error && (
                     <div className="auth-error">
-                        <strong>Error:</strong> {error}
+                        <strong>Xatolik:</strong> {error}
                     </div>
                 )}
 
@@ -53,7 +53,7 @@ const LoginPage = () => {
                     </div>
 
                     <div className="form-group">
-                        <label className="form-label">Password</label>
+                        <label className="form-label">Parol</label>
                         <input
                             type="password"
                             value={password}
@@ -74,7 +74,7 @@ const LoginPage = () => {
                 </form>
 
                 <div className="auth-footer">
-                    <p>Don't have an account? <Link to="/register">Create one</Link></p>
+                    <p>Akkauntingiz yo'qmi? <Link to="/register">Yangi akkaunt ochish</Link></p>
                 </div>
             </div>
         </div>

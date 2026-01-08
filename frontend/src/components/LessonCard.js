@@ -52,12 +52,12 @@ const LessonCard = ({ lesson, refreshLesson }) => {
             <div style={{ marginTop: '20px', display: 'flex', gap: '10px' }}>
                 {!lesson.is_completed && (
                     <button className="btn btn-primary" onClick={() => handleComplete(lesson.id)}>
-                        Mark as Complete
+                        Tugallandi
                     </button>
                 )}
                 {lesson.has_quiz && (
                     <button className="btn btn-success" onClick={() => navigate(`/lessons/${lesson.id}/quiz`)}>
-                        Go to Quiz
+                        Testni ishlash
                     </button>
                 )}
             </div>

@@ -73,7 +73,7 @@ export default function LessonDetailPage() {
   };
 
 
-  if (loading) return <div className="site-container">Loading...</div>;
+  if (loading) return <div className="site-container">Yuklanmoqda...</div>;
 
 
 

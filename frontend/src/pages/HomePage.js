@@ -31,7 +31,7 @@ const Home = () => {
   return (
     <div className="site-container">
       <div className="hero">
-        <h1>Learn anything, achieve everything</h1>
+        <h1>Hamma narsani o'rgan, Barcha narsaga erish</h1>
         <p>Bizning kurslarni o'rganing va o'z yo'lingizda yangi ko'nikmalarni egallang.</p>
         <div className="search-bar">
           <input

@@ -42,17 +42,17 @@ const LessonPage = () => {
     };
 
     if (loading) {
-        return <div className="site-container">Loading lessons...</div>;
+        return <div className="site-container">Darslar yuklanmoqda...</div>;
     }
 
     if (!lessons.length) {
-        return <div className="site-container">No lessons found for this course.</div>;
+        return <div className="site-container">Bu kurs bo'yicha hech qanday darslar topilmadi</div>;
     }
 
     return (
         <div className="site-container">
-            <h2>Lessons</h2>
-            
+            <h2>Darslar</h2>
+
             <div className="lessons-list">
                 {lessons.map((lesson, idx) => (
                     <div key={lesson.id} className="lesson-item">
@@ -69,11 +69,11 @@ const LessonPage = () => {
                                 className="btn btn-sm btn-primary mt-1"
                                 onClick={() => handleComplete(lesson.id)}
                             >
-                                Mark as Complete
+                                Tugatmoq
                             </button>
                         )}
                         {lesson.is_completed && (
-                            <span className="badge bg-success mt-1">Completed</span>
+                            <span className="badge bg-success mt-1">Tugatilgan</span>
                         )}
                     </div>
                 ))}

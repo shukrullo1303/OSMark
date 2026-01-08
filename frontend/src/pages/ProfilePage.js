@@ -67,7 +67,7 @@ const ProfilePage = () => {
             <div className="profile-layout sidebar">
                 <div className="profile-main">
                     <section className="profile-section">
-                        <h2>My Profile</h2>
+                        <h2>Mening Profilim</h2>
                         {user ? (
                             <div className="profile-card">
                                 <div className="profile-avatar">

@@ -63,7 +63,7 @@ const CoursePage = () => {
         }
     };
 
-    if (loading) return <div className="site-container"><div className="loading-state">Loading course...</div></div>;
+    if (loading) return <div className="site-container"><div className="loading-state">Kurs yuklanmoqda...</div></div>;
     if (!course) return <div className="site-container"><div className="empty-state">Kurs topilmadi.</div></div>;
 
     return (
@@ -89,7 +89,7 @@ const CoursePage = () => {
                             className={`btn ${enrolled ? 'btn-secondary' : 'btn-primary'}`}
                             disabled={enrolled}
                         >
-                            {enrolled ? '✓ Enrolled' : 'Enroll now'}
+                            {enrolled ? `✓ Ro'yxatdan o'tilgan` : `Ro'yxatdan o'tish`}
                         </button>
                     </div>
                 </div>
@@ -144,7 +144,7 @@ const CoursePage = () => {
                         <h4>Kurs ma'lumotlari</h4>
                         <div className="detail-item">
                             <span className="detail-label">O'qituvchi</span>
-                            <span className="detail-value">{course.instructor_name || 'TBA'}</span>
+                            <span className="detail-value">{course.instructor_name || `O'qituvchi ismi`}</span>
                         </div>
                         <div className="detail-item">
                             <span className="detail-label">Daraja</span>
@@ -157,7 +157,7 @@ const CoursePage = () => {
                         <div className="detail-item">
                             <span className="detail-label">Status</span>
                             <span className={`detail-badge ${enrolled ? 'enrolled' : 'available'}`}>
-                                {enrolled ? 'Enrolled' : 'Available'}
+                                {enrolled ? `Ro'yxatdan o'tilgan` : 'Mavjud'}
                             </span>
                         </div>
                     </div>
