@@ -4,6 +4,17 @@ import { getLesson, markLessonCompleted } from "../services/lessons";
 import { getQuizByLesson, getUserQuizResult } from "../services/quiz";
 import "../styles/pages/LessonDetailPage.css";
 
+const getEmbedUrl = (url) => {
+  if (!url) return null;
+
+  // YouTube ID sini ajratib olish uchun universal Regex
+  const regExp = /^.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  const match = url.match(regExp);
+
+  const videoId = (match && match[1].length === 11) ? match[1] : null;
+
+  return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
+};
 export default function LessonDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -12,6 +23,7 @@ export default function LessonDetailPage() {
   const [quiz, setQuiz] = useState(null);
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [finalEmbedUrl, setFinalEmbedUrl] = useState(null)
 
   useEffect(() => {
     loadLesson();
@@ -24,6 +36,8 @@ export default function LessonDetailPage() {
       const res = await getLesson(id);
       const lessonData = res.data;
       setLesson(lessonData);
+      const embedUrl = getEmbedUrl(lessonData.video_url);
+      setFinalEmbedUrl(embedUrl)
 
       // 2️⃣ Quizni olish
       try {
@@ -58,16 +72,19 @@ export default function LessonDetailPage() {
     }
   };
 
+
   if (loading) return <div className="site-container">Loading...</div>;
+
+
 
   return (
     <div className="site-container lesson-detail-page">
       <h1>{lesson.title}</h1>
 
-      {lesson.video_url && (
+      {finalEmbedUrl && (
         <div className="video-container">
           <iframe
-            src={`https://www.youtube.com/embed/${lesson.video_url.split("youtu.be/")[1]}`}
+            src={finalEmbedUrl}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -75,13 +92,18 @@ export default function LessonDetailPage() {
           ></iframe>
         </div>
       )}
+      {lesson.content && (
+        <span>
+          {lesson.content}
+        </span>
+      )}
 
       {/* ================= QUIZ BLOCK ================= */}
       {quiz && (
         <div className="quiz-box">
           {!result ? (
             <button
-              className="btn btn-primary"
+              className="btn btn-primary mt-3"
               onClick={() => navigate(`/quiz/${quiz.id}`)}
             >
               Testni ishlash

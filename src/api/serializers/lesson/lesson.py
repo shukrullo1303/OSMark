@@ -12,7 +12,7 @@ class LessonSerializer(BaseSerializer):
     class Meta:
         model = LessonModel
         fields = ['id', 'title', 'order', 'video_url', 
-                    'course_id', 'created_at', 'updated_at', 
+                    'course_id', 'created_at', 'updated_at', 'content',
                   'quizzes', 'progress_records' ,'next_lesson_id', "prev_lesson_id"]
 
     # def get_is_locked(self, lesson):
